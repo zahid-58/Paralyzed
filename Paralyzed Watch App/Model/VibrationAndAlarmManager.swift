@@ -12,7 +12,7 @@ import WatchKit
 class VibrationAndAlarmManager: ObservableObject {
     // Verwendet eine @Published Eigenschaft, um Änderungen am aktiven Toggle zu überwachen.
     // 1 für Vibration, 2 für Alarm, 3 für Vibration und Alarm
-    @Published var activeToggle: Int = 1
+    @Published var activeToggle: Int = 2
     var audioPlayer: AVAudioPlayer?
 
 
