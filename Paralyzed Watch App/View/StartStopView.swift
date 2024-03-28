@@ -31,7 +31,7 @@ struct StartStopView: View {
                 }else{
                     Button("Tap to deactivate") {
                         isActivated = false
-                        healthAndMotionManager.stopMonitoring()
+                        healthAndMotionManager.stopMonitoringAndTimer()
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
@@ -42,7 +42,7 @@ struct StartStopView: View {
                 
                 Text("Herzfrequenz: \(healthAndMotionManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthAndMotionManager.heartRate) { newValue in
-                        if newValue > 60 { // Setze den Schwellenwert nach Bedarf}
+                        if newValue > 120 { // Setze den Schwellenwert nach Bedarf}
                             showImpactNotificationView = true
                         }
                     }

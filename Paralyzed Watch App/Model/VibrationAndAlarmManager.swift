@@ -20,7 +20,7 @@ class VibrationAndAlarmManager: ObservableObject {
     func activateVibration() {
         // Implementiere hier die Logik für die Aktivierung der Vibration.
         // Dies könnte z.B. das Auslösen eines Haptik-Feedbacks beinhalten.
-        WKInterfaceDevice.current().play(.click)
+        WKInterfaceDevice.current().play(.notification)
         
         print("Vibration activated")
     }

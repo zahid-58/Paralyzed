@@ -13,6 +13,8 @@ class HealthAndMotionManager: ObservableObject {
     private var healthStore = HKHealthStore()
     private let motionManager = CMMotionManager()
     private var heartRateQuery: HKQuery? // Speichert die aktive Herzfrequenzabfrage
+    private var timer: Timer? // Timer für regelmäßige Herzfrequenzupdates
+    private var isMonitoring: Bool = false // Zustand der Überwachung
     
     @Published var heartRate: Double = 0
     @Published var acceleration: CMAcceleration = CMAcceleration(x: 0, y: 0, z: 0)
@@ -34,7 +36,9 @@ class HealthAndMotionManager: ObservableObject {
         
         healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, _ in
             if success {
-                self?.startHeartRateMonitoring()
+               // zum Testen:
+                self?.startStopTimer()
+                print("requestttt")
             }
         }
     }
@@ -69,6 +73,31 @@ class HealthAndMotionManager: ObservableObject {
         heartRateQuery = query // Speichert die Referenz auf die Abfrage
     }
     
+    func startStopTimer(){
+        print("in startstoptimer func drin")
+        
+        // Starte den Timer, um alle 2 Minuten die neueste Herzfrequenz abzurufen
+        DispatchQueue.main.async {
+            //timer?.invalidate() // Stoppe den vorhandenen Timer, falls aktiv
+            self.timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
+                self?.toggleMonitoring()
+                print("timer iterierung")
+            }
+        }
+    }
+    
+    
+    func toggleMonitoring(){
+        if isMonitoring {
+            stopMonitoringInTimer()
+            print("Herzfrequenz stoppt")
+        } else {
+            startHeartRateMonitoring()
+            print("Herzfrequenz startet")
+        }
+        isMonitoring.toggle() // Ändere den Zustand der Überwachung
+    }
+    
     // Startet die Aufzeichnung der Bewegungsdaten
     func startMotionUpdates() {
         print("Activating motion updates...")
@@ -84,8 +113,18 @@ class HealthAndMotionManager: ObservableObject {
     }
     
     // Stopt die Herzfrequenzüberwachung sowie Bewegungsdaten
-    func stopMonitoring() {
+    func stopMonitoringAndTimer() {
         print("Deactivating heart monitoring and motion updates...")
+        stopMonitoringInTimer()
+        
+        timer?.invalidate()
+        timer = nil
+        
+        print("Is heart rate active? " , isHeartRateMonitoringActive)
+    }
+    
+    func stopMonitoringInTimer() {
+        
         motionManager.stopDeviceMotionUpdates()
         if let query = heartRateQuery {
             healthStore.stop(query) // Beendet die Herzfrequenzabfrage
@@ -94,6 +133,8 @@ class HealthAndMotionManager: ObservableObject {
             heartRateQuery = nil
             print("Is heart rate active? " , isHeartRateMonitoringActive)
         }
-        print("Is heart rate active? " , isHeartRateMonitoringActive)
+        
+        
     }
+
 }
