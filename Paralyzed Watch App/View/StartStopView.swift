@@ -11,6 +11,7 @@ struct StartStopView: View {
     @StateObject private var healthAndMotionManager = HealthAndMotionManager()
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false // Zustandsvariable für die Anzeige der ImpactNotificationView
+    @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     
     var body: some View {
         NavigationView{
@@ -56,7 +57,7 @@ struct StartStopView: View {
         }
         .navigationBarBackButtonHidden()
         .fullScreenCover(isPresented: $showImpactNotificationView, content: {
-            ImpactNotificationView(showImpactNotificationView: $showImpactNotificationView, vibrationAndAlarmManager: VibrationAndAlarmManager())
+            ImpactNotificationView(showImpactNotificationView: $showImpactNotificationView)
                     })
 //        .sheet(isPresented: $showImpactNotificationView){
 //            ImpactNotificationView()

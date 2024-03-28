@@ -11,7 +11,8 @@ struct ImpactNotificationView: View {
     @State private var animate = false
     @Environment(\.presentationMode) var presentationMode
     @Binding var showImpactNotificationView: Bool
-    @ObservedObject var vibrationAndAlarmManager: VibrationAndAlarmManager
+    //@ObservedObject var vibrationAndAlarmManager: VibrationAndAlarmManager
+    @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
         
     
     var body: some View {
@@ -41,6 +42,7 @@ struct ImpactNotificationView: View {
                         if vibrationAndAlarmManager.activeToggle == 3{
                             vibrationAndAlarmManager.activateBoth()
                         }
+                        
                         
                         withAnimation(Animation.easeInOut(duration: 0.6).repeatForever(autoreverses: true)){
                             animate = true
@@ -72,6 +74,6 @@ struct ImpactNotificationView: View {
     }
 }
 
-#Preview {
-    ImpactNotificationView(showImpactNotificationView: .constant(true), vibrationAndAlarmManager: VibrationAndAlarmManager())
-}
+//#Preview {
+//    ImpactNotificationView(showImpactNotificationView: .constant(true), vibrationAndAlarmManager: VibrationAndAlarmManager())
+//}
