@@ -40,10 +40,17 @@ struct StartStopView: View {
                     Text("Status:") + Text(" is activated").foregroundColor(.green)
                 }
                 
+                //Hier ist unser Algo im Moment zum detektieren
                 Text("Herzfrequenz: \(healthAndMotionManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthAndMotionManager.heartRate) { newValue in
-                        if newValue > 120 { // Setze den Schwellenwert nach Bedarf}
+                        if newValue > 60 { // Setze den Schwellenwert nach Bedarf
+                            
+                            healthAndMotionManager.stopMonitoringAndTimer()
+                            healthAndMotionManager.isMonitoring = false
+                            isActivated = false
+                            
                             showImpactNotificationView = true
+
                         }
                     }
                 Text("Beschleunigung X: \(String(format: "%.2f", healthAndMotionManager.acceleration.x))")

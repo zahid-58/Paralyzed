@@ -13,6 +13,7 @@ struct ImpactNotificationView: View {
     @Binding var showImpactNotificationView: Bool
     //@ObservedObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
+    
         
     
     var body: some View {
@@ -31,6 +32,7 @@ struct ImpactNotificationView: View {
                 
                     // Beim Erscheinen des ImpactNotificationView, wird hier je nach Bedingung entschieden, ob Vibration, Alarm oder beides aktiviert werden im Falle einer Auslösung
                     .onAppear{
+                        
                         if vibrationAndAlarmManager.activeToggle == 1{
                             vibrationAndAlarmManager.activateVibration()
                         }
@@ -62,12 +64,15 @@ struct ImpactNotificationView: View {
                 
                 Button("Done") {
                                     presentationMode.wrappedValue.dismiss()
+                                    vibrationAndAlarmManager.doneButtonClicked = true
+                    
                                 }
                                 .foregroundColor(.white)
                                 .padding()
                                 // .background(Color.blue) - Füge dies hinzu, wenn du einen blauen Hintergrund möchtest.
                                 .cornerRadius(10)
                                 .padding(10)
+                                
             }
             .navigationBarHidden(true) // Versteckt die komplette NavigationBar, einschließlich des "X" Buttons
         }

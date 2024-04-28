@@ -14,7 +14,7 @@ class HealthAndMotionManager: ObservableObject {
     private let motionManager = CMMotionManager()
     private var heartRateQuery: HKQuery? // Speichert die aktive Herzfrequenzabfrage
     private var timer: Timer? // Timer für regelmäßige Herzfrequenzupdates
-    private var isMonitoring: Bool = false // Zustand der Überwachung
+    @Published var isMonitoring: Bool = false // Zustand der Überwachung
     
     @Published var heartRate: Double = 0
     @Published var acceleration: CMAcceleration = CMAcceleration(x: 0, y: 0, z: 0)
