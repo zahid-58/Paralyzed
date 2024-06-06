@@ -65,7 +65,7 @@ struct ImpactNotificationView: View {
                 Button("Done") {
                                     presentationMode.wrappedValue.dismiss()
                                     vibrationAndAlarmManager.doneButtonClicked = true
-                    
+                                    
                                 }
                                 .foregroundColor(.white)
                                 .padding()

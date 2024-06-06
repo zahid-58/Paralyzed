@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3102AEF42B8179D200F716AF /* SessionPagingView.swift */; };
+		31255F1F2BFFB50200DC2C9E /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31255F1E2BFFB50200DC2C9E /* alarm.mp3 */; };
 		314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314779C92B7D0FA900C8EADC /* SettingsView.swift */; };
 		31536F372B83A77600176F6F /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F362B83A77600176F6F /* SummaryView.swift */; };
 		31536F3A2B84065C00176F6F /* HealthAndMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F392B84065C00176F6F /* HealthAndMotionManager.swift */; };
-		31CC81812BAC9BF700C99974 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31CC81802BAC9BF700C99974 /* alarm.mp3 */; };
 		31CC81832BAC9C0700C99974 /* modern_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */; };
 		31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */; };
 		31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */; };
@@ -48,10 +48,10 @@
 
 /* Begin PBXFileReference section */
 		3102AEF42B8179D200F716AF /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
+		31255F1E2BFFB50200DC2C9E /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = SOURCE_ROOT; };
 		314779C92B7D0FA900C8EADC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		31536F362B83A77600176F6F /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		31536F392B84065C00176F6F /* HealthAndMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAndMotionManager.swift; sourceTree = "<group>"; };
-		31CC81802BAC9BF700C99974 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = SOURCE_ROOT; };
 		31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = modern_alarm.mp3; sourceTree = SOURCE_ROOT; };
 		31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrationAndAlarmManager.swift; sourceTree = "<group>"; };
 		31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImpactNotificationView.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 			children = (
 				31D484E42B7C27CC0068B3C4 /* Paralyzed-Watch-App-Info.plist */,
 				31D484E32B7BE8EE0068B3C4 /* Paralyzed Watch App.entitlements */,
-				31CC81802BAC9BF700C99974 /* alarm.mp3 */,
+				31255F1E2BFFB50200DC2C9E /* alarm.mp3 */,
 				31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */,
 				31D96C232B6707D300A1B16A /* Model */,
 				31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */,
@@ -232,9 +232,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31255F1F2BFFB50200DC2C9E /* alarm.mp3 in Resources */,
 				31D96C172B66F9DE00A1B16A /* Preview Assets.xcassets in Resources */,
 				31D96C142B66F9DE00A1B16A /* Assets.xcassets in Resources */,
-				31CC81812BAC9BF700C99974 /* alarm.mp3 in Resources */,
 				31CC81832BAC9C0700C99974 /* modern_alarm.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

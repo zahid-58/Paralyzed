@@ -29,7 +29,7 @@ class VibrationAndAlarmManager: ObservableObject {
     }
     
     func activateAlarm() {
-        guard let soundURL = Bundle.main.url(forResource: "modern_alarm", withExtension: "mp3") else {
+        guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
             print("Audio file not found")
             return
         }
