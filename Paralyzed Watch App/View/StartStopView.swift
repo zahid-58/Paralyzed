@@ -12,6 +12,8 @@ struct StartStopView: View {
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false // Zustandsvariable für die Anzeige der ImpactNotificationView
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
+    @StateObject private var motionManager = MotionManager()
+    @StateObject private var respiratoryManager = RespiratoryManager()
     
     var body: some View {
         NavigationView{
@@ -22,6 +24,8 @@ struct StartStopView: View {
                         healthAndMotionManager.requestAuthorization()
                         //healthAndMotionManager.startHeartRateMonitoring()
                         healthAndMotionManager.startMotionUpdates()
+                        
+                        respiratoryManager.startRespiratoryMonitoring()
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.green)
@@ -43,11 +47,14 @@ struct StartStopView: View {
                 //Hier ist unser Algo im Moment zum detektieren
                 Text("Herzfrequenz: \(healthAndMotionManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthAndMotionManager.heartRate) { newValue in
-                        if newValue > 60 { // Setze den Schwellenwert nach Bedarf
+                        if newValue > 120 && motionManager.isStationary { // Setze den Schwellenwert nach Bedarf
                             
                             healthAndMotionManager.stopMonitoringAndTimer()
                             healthAndMotionManager.isMonitoring = false
                             isActivated = false
+                            motionManager.stop()
+                            
+                            respiratoryManager.stopMonitoring()
                             
                             showImpactNotificationView = true
 

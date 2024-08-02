@@ -12,6 +12,7 @@
 		314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314779C92B7D0FA900C8EADC /* SettingsView.swift */; };
 		31536F372B83A77600176F6F /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F362B83A77600176F6F /* SummaryView.swift */; };
 		31536F3A2B84065C00176F6F /* HealthAndMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F392B84065C00176F6F /* HealthAndMotionManager.swift */; };
+		31B808432C4C4DD000BD8F4D /* RespiratoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B808422C4C4DD000BD8F4D /* RespiratoryManager.swift */; };
 		31CC81832BAC9C0700C99974 /* modern_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */; };
 		31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */; };
 		31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */; };
@@ -20,6 +21,7 @@
 		31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D96C112B66F9DD00A1B16A /* StartStopView.swift */; };
 		31D96C142B66F9DE00A1B16A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D96C132B66F9DE00A1B16A /* Assets.xcassets */; };
 		31D96C172B66F9DE00A1B16A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D96C162B66F9DE00A1B16A /* Preview Assets.xcassets */; };
+		31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FD78982C1B34D8008C207B /* MotionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 		314779C92B7D0FA900C8EADC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		31536F362B83A77600176F6F /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		31536F392B84065C00176F6F /* HealthAndMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAndMotionManager.swift; sourceTree = "<group>"; };
+		31B808422C4C4DD000BD8F4D /* RespiratoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryManager.swift; sourceTree = "<group>"; };
 		31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = modern_alarm.mp3; sourceTree = SOURCE_ROOT; };
 		31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrationAndAlarmManager.swift; sourceTree = "<group>"; };
 		31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImpactNotificationView.swift; sourceTree = "<group>"; };
@@ -63,6 +66,7 @@
 		31D96C112B66F9DD00A1B16A /* StartStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopView.swift; sourceTree = "<group>"; };
 		31D96C132B66F9DE00A1B16A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31D96C162B66F9DE00A1B16A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		31FD78982C1B34D8008C207B /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				31536F392B84065C00176F6F /* HealthAndMotionManager.swift */,
+				31FD78982C1B34D8008C207B /* MotionManager.swift */,
+				31B808422C4C4DD000BD8F4D /* RespiratoryManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -250,9 +256,11 @@
 				31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */,
 				31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */,
 				31536F372B83A77600176F6F /* SummaryView.swift in Sources */,
+				31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */,
 				31536F3A2B84065C00176F6F /* HealthAndMotionManager.swift in Sources */,
 				31D96C102B66F9DD00A1B16A /* ParalyzedApp.swift in Sources */,
 				3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */,
+				31B808432C4C4DD000BD8F4D /* RespiratoryManager.swift in Sources */,
 				31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,6 +406,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Paralyzed;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Please allow access to enjoy all the features of our app";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy all the features of our app";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Diese App benötigt Zugriff auf Bewegungsdaten, um festzustellen, ob Sie sich bewegen oder nicht.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -412,7 +421,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Debug;
 		};
@@ -432,6 +441,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Paralyzed;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Please allow access to enjoy all the features of our app";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy all the features of our app";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Diese App benötigt Zugriff auf Bewegungsdaten, um festzustellen, ob Sie sich bewegen oder nicht.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -447,7 +457,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 10.4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Release;
 		};
