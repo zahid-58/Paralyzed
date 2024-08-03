@@ -83,6 +83,7 @@
 		31536F382B84061200176F6F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */,
 				31536F392B84065C00176F6F /* HealthManager.swift */,
 				31FD78982C1B34D8008C207B /* MotionManager.swift */,
 				31B404602C5D5F9400FA81BC /* ManagerProvider.swift */,
@@ -114,7 +115,6 @@
 				31D484E32B7BE8EE0068B3C4 /* Paralyzed Watch App.entitlements */,
 				31255F1E2BFFB50200DC2C9E /* alarm.mp3 */,
 				31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */,
-				31D96C232B6707D300A1B16A /* Model */,
 				31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */,
 				31D96C212B67077800A1B16A /* View */,
 				31536F382B84061200176F6F /* ViewModel */,
@@ -142,14 +142,6 @@
 				31536F362B83A77600176F6F /* SummaryView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		31D96C232B6707D300A1B16A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

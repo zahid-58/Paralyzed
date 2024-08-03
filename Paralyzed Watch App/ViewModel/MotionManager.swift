@@ -8,7 +8,7 @@
 import CoreMotion
 import Foundation
 
-class MotionManager{
+class MotionManager: ObservableObject{
     let motionManager = CMMotionManager()
     var timer: Timer?
     var motionDetected = false // Variable, um festzustellen, ob Bewegung erkannt wurde
@@ -22,7 +22,7 @@ class MotionManager{
             print("Beschleunigungsmesser nicht verfügbar.")
             return
         }
-        var motionDetected = false
+        motionDetected = false
         xValues.removeAll()
         yValues.removeAll()
         zValues.removeAll()

@@ -15,11 +15,13 @@ class ManagerProvider: ObservableObject {
     //Deklarierung alle Manager die verwendet werden sollen
     @Published var motionManager: MotionManager
     @Published var healthManager: HealthManager
+    @Published var vibrationAndalarmManager: VibrationAndAlarmManager
     
     
     private init() {
         self.motionManager = MotionManager()
         self.healthManager = HealthManager()
+        self.vibrationAndalarmManager = VibrationAndAlarmManager()
     }
     
 }

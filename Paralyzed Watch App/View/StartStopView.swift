@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct StartStopView: View {
-    @StateObject private var healthManager = HealthManager()
+    //@StateObject private var healthManager = HealthManager()
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false // Zustandsvariable für die Anzeige der ImpactNotificationView
-    @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     
     //---neu
-    @ObservedObject var managerProvider = ManagerProvider.shared
+    @StateObject var managerProvider = ManagerProvider.shared
     
     var body: some View {
         NavigationView{
@@ -22,8 +21,9 @@ struct StartStopView: View {
                 if !isActivated{
                     Button("Tap to activate") {
                         isActivated = true
-                        healthManager.requestAuthorization()
-                        healthManager.startHeartRateMonitoring()
+                        managerProvider.healthManager.requestAuthorization()
+                        //Ist das unten nicht redundant? da im request funktion schon gestartet wird
+                        //managerProvider.healthManager.startHeartRateMonitoring()
                         
                         //---neu
                         //managerProvider.motionManager.startMonitoring(for: 10.0)
@@ -37,7 +37,7 @@ struct StartStopView: View {
                 }else{
                     Button("Tap to deactivate") {
                         isActivated = false
-                        healthManager.stopMonitoringAndTimer()
+                        managerProvider.healthManager.stopMonitoringAndTimer()
                         managerProvider.motionManager.stopMonitoring()
                     }
                     .buttonStyle(.borderedProminent)
@@ -48,12 +48,12 @@ struct StartStopView: View {
                 }
                 
                 //Hier ist unser Algo im Moment zum detektieren
-                Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
-                    .onChange(of: healthManager.heartRate) { newValue in
-                        if newValue > 120 { // Setze den Schwellenwert nach Bedarf
+                Text("Herzfrequenz: \(managerProvider.healthManager.heartRate, specifier: "%.0f") BPM")
+                    .onChange(of: managerProvider.healthManager.heartRate) { newValue in
+                        if newValue > 60 { // Setze den Schwellenwert nach Bedarf
                             
-                            healthManager.stopMonitoringAndTimer()
-                            healthManager.isMonitoring = false
+                            managerProvider.healthManager.stopMonitoringAndTimer()
+                            managerProvider.healthManager.isMonitoring = false
                             isActivated = false
                             
                             
