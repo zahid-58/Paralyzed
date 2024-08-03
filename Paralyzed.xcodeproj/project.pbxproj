@@ -11,8 +11,8 @@
 		31255F1F2BFFB50200DC2C9E /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31255F1E2BFFB50200DC2C9E /* alarm.mp3 */; };
 		314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314779C92B7D0FA900C8EADC /* SettingsView.swift */; };
 		31536F372B83A77600176F6F /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F362B83A77600176F6F /* SummaryView.swift */; };
-		31536F3A2B84065C00176F6F /* HealthAndMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F392B84065C00176F6F /* HealthAndMotionManager.swift */; };
-		31B808432C4C4DD000BD8F4D /* RespiratoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B808422C4C4DD000BD8F4D /* RespiratoryManager.swift */; };
+		31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F392B84065C00176F6F /* HealthManager.swift */; };
+		31B404612C5D5F9400FA81BC /* ManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B404602C5D5F9400FA81BC /* ManagerProvider.swift */; };
 		31CC81832BAC9C0700C99974 /* modern_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */; };
 		31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */; };
 		31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */; };
@@ -53,8 +53,8 @@
 		31255F1E2BFFB50200DC2C9E /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = SOURCE_ROOT; };
 		314779C92B7D0FA900C8EADC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		31536F362B83A77600176F6F /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
-		31536F392B84065C00176F6F /* HealthAndMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthAndMotionManager.swift; sourceTree = "<group>"; };
-		31B808422C4C4DD000BD8F4D /* RespiratoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryManager.swift; sourceTree = "<group>"; };
+		31536F392B84065C00176F6F /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		31B404602C5D5F9400FA81BC /* ManagerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerProvider.swift; sourceTree = "<group>"; };
 		31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = modern_alarm.mp3; sourceTree = SOURCE_ROOT; };
 		31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrationAndAlarmManager.swift; sourceTree = "<group>"; };
 		31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImpactNotificationView.swift; sourceTree = "<group>"; };
@@ -83,9 +83,9 @@
 		31536F382B84061200176F6F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				31536F392B84065C00176F6F /* HealthAndMotionManager.swift */,
+				31536F392B84065C00176F6F /* HealthManager.swift */,
 				31FD78982C1B34D8008C207B /* MotionManager.swift */,
-				31B808422C4C4DD000BD8F4D /* RespiratoryManager.swift */,
+				31B404602C5D5F9400FA81BC /* ManagerProvider.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -254,13 +254,13 @@
 			files = (
 				314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */,
 				31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */,
+				31B404612C5D5F9400FA81BC /* ManagerProvider.swift in Sources */,
 				31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */,
 				31536F372B83A77600176F6F /* SummaryView.swift in Sources */,
 				31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */,
-				31536F3A2B84065C00176F6F /* HealthAndMotionManager.swift in Sources */,
+				31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */,
 				31D96C102B66F9DD00A1B16A /* ParalyzedApp.swift in Sources */,
 				3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */,
-				31B808432C4C4DD000BD8F4D /* RespiratoryManager.swift in Sources */,
 				31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

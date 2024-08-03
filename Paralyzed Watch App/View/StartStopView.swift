@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct StartStopView: View {
-    @StateObject private var healthAndMotionManager = HealthAndMotionManager()
+    @StateObject private var healthManager = HealthManager()
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false // Zustandsvariable für die Anzeige der ImpactNotificationView
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
-    @StateObject private var motionManager = MotionManager()
-    @StateObject private var respiratoryManager = RespiratoryManager()
+    
+    //---neu
+    @ObservedObject var managerProvider = ManagerProvider.shared
     
     var body: some View {
         NavigationView{
@@ -21,11 +22,12 @@ struct StartStopView: View {
                 if !isActivated{
                     Button("Tap to activate") {
                         isActivated = true
-                        healthAndMotionManager.requestAuthorization()
-                        //healthAndMotionManager.startHeartRateMonitoring()
-                        healthAndMotionManager.startMotionUpdates()
+                        healthManager.requestAuthorization()
+                        healthManager.startHeartRateMonitoring()
                         
-                        respiratoryManager.startRespiratoryMonitoring()
+                        //---neu
+                        //managerProvider.motionManager.startMonitoring(for: 10.0)
+                        
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.green)
@@ -35,7 +37,8 @@ struct StartStopView: View {
                 }else{
                     Button("Tap to deactivate") {
                         isActivated = false
-                        healthAndMotionManager.stopMonitoringAndTimer()
+                        healthManager.stopMonitoringAndTimer()
+                        managerProvider.motionManager.stopMonitoring()
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
@@ -45,24 +48,19 @@ struct StartStopView: View {
                 }
                 
                 //Hier ist unser Algo im Moment zum detektieren
-                Text("Herzfrequenz: \(healthAndMotionManager.heartRate, specifier: "%.0f") BPM")
-                    .onChange(of: healthAndMotionManager.heartRate) { newValue in
-                        if newValue > 120 && motionManager.isStationary { // Setze den Schwellenwert nach Bedarf
+                Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
+                    .onChange(of: healthManager.heartRate) { newValue in
+                        if newValue > 120 { // Setze den Schwellenwert nach Bedarf
                             
-                            healthAndMotionManager.stopMonitoringAndTimer()
-                            healthAndMotionManager.isMonitoring = false
+                            healthManager.stopMonitoringAndTimer()
+                            healthManager.isMonitoring = false
                             isActivated = false
-                            motionManager.stop()
                             
-                            respiratoryManager.stopMonitoring()
                             
                             showImpactNotificationView = true
 
                         }
                     }
-                Text("Beschleunigung X: \(String(format: "%.2f", healthAndMotionManager.acceleration.x))")
-                Text("Beschleunigung Y: \(String(format: "%.2f", healthAndMotionManager.acceleration.y))")
-                Text("Beschleunigung Z: \(String(format: "%.2f", healthAndMotionManager.acceleration.z))")
 
                 // Füge hier zusätzliche UI-Elemente hinzu, um weitere Daten anzuzeigen
                 
