@@ -11,7 +11,7 @@ import Foundation
 class MotionManager: ObservableObject{
     let motionManager = CMMotionManager()
     var timer: Timer?
-    var motionDetected = false // Variable, um festzustellen, ob Bewegung erkannt wurde
+    @Published var motionNotDetected = 0 // Variable, um festzustellen, ob Bewegung erkannt wurde
     var xValues: [Double] = []
     var yValues: [Double] = []
     var zValues: [Double] = []
@@ -22,7 +22,7 @@ class MotionManager: ObservableObject{
             print("Beschleunigungsmesser nicht verfügbar.")
             return
         }
-        motionDetected = false
+        motionNotDetected = 0
         xValues.removeAll()
         yValues.removeAll()
         zValues.removeAll()
@@ -48,11 +48,14 @@ class MotionManager: ObservableObject{
             guard let self = self else { return }
             self.stopMonitoring()
             self.calculateAndPrintAverageDifferences()
-            if self.motionDetected {
-                print("Bewegung erkannt.")
-            } else {
+            if self.motionNotDetected == 1 {
                 print("Keine Bewegung erkannt.")
             }
+            
+            if self.motionNotDetected == 2 {
+                print("ewegung erkannt.")
+            }
+            
         }
     }
 
@@ -61,7 +64,7 @@ class MotionManager: ObservableObject{
         motionManager.stopAccelerometerUpdates()
         timer?.invalidate()
         timer = nil
-        motionDetected = false
+        motionNotDetected = 0
         
         print("MOTION STOPPED")
     }
@@ -94,8 +97,10 @@ class MotionManager: ObservableObject{
         // Prüfe, ob die Anzahl der Differenzen größer als 0 ist, um Division durch Null zu vermeiden
         let averageDifference = numberOfDifferences > 0 ? sumOfDifferences / numberOfDifferences : 0.0
         
-        if averageDifference > 0.2 {
-            motionDetected = true
+        if averageDifference < 0.2 {
+            motionNotDetected = 1
+        }else{
+            motionNotDetected = 2
         }
         
         print("Durchschnittliche absolute Differenz für Achse \(axis): \(String(format: "%.4f", averageDifference))")

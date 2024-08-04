@@ -18,6 +18,11 @@ class HealthManager: ObservableObject {
     @Published var heartRate: Double = 0
     @Published var isHeartRateMonitoringActive: Bool = false
     
+    // Eigenschaft zur Speicherung der Herzfrequenzdaten
+    var heartRateData: [Double] = []
+    
+    @Published var averageHeartRate: Double = 0
+    
     func requestAuthorization() {
         print("Requesting authrorization...")
         guard HKHealthStore.isHealthDataAvailable() else {
@@ -49,9 +54,6 @@ class HealthManager: ObservableObject {
             
             guard let samples = sampleObjects as? [HKQuantitySample] else { return }
             let latestSample = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min"))
-            DispatchQueue.main.async {
-                self?.heartRate = latestSample ?? 0
-            }
         }
         
         query.updateHandler = { [weak self] _, sampleObjects, _, _, _ in
@@ -59,11 +61,21 @@ class HealthManager: ObservableObject {
             let latestSample = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min"))
             DispatchQueue.main.async {
                 self?.heartRate = latestSample ?? 0
+                self?.heartRateData.append(latestSample ?? 0)
+                print("Heart Rate: \(self?.heartRate ?? 0)")
             }
         }
+    
         
         healthStore.execute(query)
         heartRateQuery = query // Speichert die Referenz auf die Abfrage
+    }
+    
+    // Berechnen des Durchschnittswertes der Herzfrequenz
+    func calculateAverageHeartRate() {
+        let sum = heartRateData.reduce(0, +)
+        averageHeartRate = sum / Double(heartRateData.count)
+        print("Average Heart Rate: \(averageHeartRate)")
     }
     
     func startStopTimer(){
@@ -72,7 +84,7 @@ class HealthManager: ObservableObject {
         // Starte den Timer, um alle Sekunden die neueste Herzfrequenz abzurufen
         DispatchQueue.main.async {
             //timer?.invalidate() // Stoppe den vorhandenen Timer, falls aktiv
-            self.timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
+            self.timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { [weak self] _ in
                 self?.toggleMonitoring()
                 print("timer iterierung")
             }
@@ -82,8 +94,11 @@ class HealthManager: ObservableObject {
     
     func toggleMonitoring(){
         if isMonitoring {
+            calculateAverageHeartRate()
             stopMonitoringInTimer()
             print("Herzfrequenz stoppt")
+            
+            heartRateData.removeAll()
         } else {
             startHeartRateMonitoring()
             print("Herzfrequenz startet")

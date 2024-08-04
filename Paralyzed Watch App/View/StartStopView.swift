@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct StartStopView: View {
-    //@StateObject private var healthManager = HealthManager()
+    @StateObject private var healthManager = HealthManager()
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false // Zustandsvariable für die Anzeige der ImpactNotificationView
     
     //---neu
-    @StateObject var managerProvider = ManagerProvider.shared
+    //@ObservedObject var managerProvider = ManagerProvider.shared
+    
+    @State private var motionActive: Bool = false
+    
+    @StateObject private var motionManager = MotionManager()
     
     var body: some View {
         NavigationView{
@@ -21,9 +25,10 @@ struct StartStopView: View {
                 if !isActivated{
                     Button("Tap to activate") {
                         isActivated = true
-                        managerProvider.healthManager.requestAuthorization()
+                        
+                        healthManager.requestAuthorization()
                         //Ist das unten nicht redundant? da im request funktion schon gestartet wird
-                        //managerProvider.healthManager.startHeartRateMonitoring()
+                        //healthManager.startHeartRateMonitoring()
                         
                         //---neu
                         //managerProvider.motionManager.startMonitoring(for: 10.0)
@@ -37,8 +42,8 @@ struct StartStopView: View {
                 }else{
                     Button("Tap to deactivate") {
                         isActivated = false
-                        managerProvider.healthManager.stopMonitoringAndTimer()
-                        managerProvider.motionManager.stopMonitoring()
+                        healthManager.stopMonitoringAndTimer()
+                        motionManager.stopMonitoring()
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
@@ -48,19 +53,48 @@ struct StartStopView: View {
                 }
                 
                 //Hier ist unser Algo im Moment zum detektieren
-                Text("Herzfrequenz: \(managerProvider.healthManager.heartRate, specifier: "%.0f") BPM")
-                    .onChange(of: managerProvider.healthManager.heartRate) { newValue in
-                        if newValue > 60 { // Setze den Schwellenwert nach Bedarf
+                Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
+                    .onChange(of: healthManager.averageHeartRate) { newValue in
+                        if newValue > 85 { // Setze den Schwellenwert nach Bedarf
                             
-                            managerProvider.healthManager.stopMonitoringAndTimer()
-                            managerProvider.healthManager.isMonitoring = false
-                            isActivated = false
+                            healthManager.stopMonitoringAndTimer()
+                            healthManager.isMonitoring = false
+                            //isActivated = false
+                            healthManager.averageHeartRate = 0
+                            
+                            motionManager.startMonitoring(for: 10)
+                            motionActive = true
                             
                             
-                            showImpactNotificationView = true
+                            
+                            //showImpactNotificationView = true
 
                         }
                     }
+                
+                if motionActive {
+                    Text("Bewegungsdaten werden gescannt...")
+                        .onChange(of: motionManager.motionNotDetected) { newValue in
+                            if newValue == 1{
+                                motionManager.motionNotDetected = 0
+                                isActivated = false
+                                showImpactNotificationView = true
+                                motionManager.stopMonitoring()
+                                
+                                motionActive = false
+                            }
+                            
+                            if newValue == 2{
+                                print("bewgung erkannt deshalb geht es weiter")
+                                healthManager.requestAuthorization()
+                                
+                                motionActive = false
+                            }
+                            
+
+                        }
+                    
+                }
 
                 // Füge hier zusätzliche UI-Elemente hinzu, um weitere Daten anzuzeigen
                 
