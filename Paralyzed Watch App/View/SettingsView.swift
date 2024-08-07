@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    //@State private var activeToggle: Int = 1 // 1 für Vibration, 2 für Alarm, 3 für Vibration und Alarm
+    @State private var activeToggle: Int = 3 // 1 für Vibration, 2 für Alarm, 3 für Vibration und Alarm
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     
     var body: some View {

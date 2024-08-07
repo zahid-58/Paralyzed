@@ -55,7 +55,7 @@ struct StartStopView: View {
                 //Hier ist unser Algo im Moment zum detektieren
                 Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthManager.averageHeartRate) { newValue in
-                        if newValue > 85 { // Setze den Schwellenwert nach Bedarf
+                        if newValue > 60 { // Setze den Schwellenwert nach Bedarf
                             
                             healthManager.stopMonitoringAndTimer()
                             healthManager.isMonitoring = false

@@ -24,20 +24,32 @@ class HealthManager: ObservableObject {
     @Published var averageHeartRate: Double = 0
     
     func requestAuthorization() {
-        print("Requesting authrorization...")
+        print("Requesting authorization...")
+        let healthStore = HKHealthStore()
         guard HKHealthStore.isHealthDataAvailable() else {
+            print("Health data is not available on this device.")
             return
         }
         
-        let typesToRead: Set = [
-            HKObjectType.quantityType(forIdentifier: .heartRate)!
-        ]
+        guard let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate),
+              let restingHeartRateType = HKObjectType.quantityType(forIdentifier: .restingHeartRate) else {
+            print("Required health data types are not available.")
+            return
+        }
+
+        let typesToRead: Set<HKObjectType> = [heartRateType, restingHeartRateType]
         
-        healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, _ in
+        healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, error in
             if success {
-               // zum Testen:
-                self?.startStopTimer()
-                print("requestttt")
+                // Zum Testen:
+                self?.fetchMonthlyAverageOfDailyMaxRestingHeartRates()
+                print("Authorization granted.")
+            } else {
+                if let error = error {
+                    print("Authorization failed with error: \(error.localizedDescription)")
+                } else {
+                    print("Authorization failed.")
+                }
             }
         }
     }
@@ -47,15 +59,21 @@ class HealthManager: ObservableObject {
         print("Activating heart monitoring...")
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
         
+        // Daten zurücksetzen
+        self.heartRate = 0
+        self.heartRateData.removeAll()
+        
         // Setzen Sie isHeartRateMonitoringActive auf true, wenn die Überwachung startet
         self.isHeartRateMonitoringActive = true
         
-        let query = HKAnchoredObjectQuery(type: heartRateType, predicate: nil, anchor: nil, limit: HKObjectQueryNoLimit) { [weak self] _, sampleObjects, _, _, _ in
-            
-            guard let samples = sampleObjects as? [HKQuantitySample] else { return }
-            let latestSample = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min"))
+        
+        
+        // Leerer Block für den initialen Datenabruf
+        let query = HKAnchoredObjectQuery(type: heartRateType, predicate: nil, anchor: nil, limit: HKObjectQueryNoLimit) { _, _, _, _, _ in
+            // Keine Aktion benötigt beim initialen Abruf
         }
         
+        // UpdateHandler wartet automatisch auf neue Ergebnisse und gibt sie dann während dem Scan aus
         query.updateHandler = { [weak self] _, sampleObjects, _, _, _ in
             guard let samples = sampleObjects as? [HKQuantitySample] else { return }
             let latestSample = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min"))
@@ -98,7 +116,7 @@ class HealthManager: ObservableObject {
             stopMonitoringInTimer()
             print("Herzfrequenz stoppt")
             
-            heartRateData.removeAll()
+            //heartRateData.removeAll()
         } else {
             startHeartRateMonitoring()
             print("Herzfrequenz startet")
@@ -126,8 +144,60 @@ class HealthManager: ObservableObject {
             heartRateQuery = nil
             print("Is heart rate active? " , isHeartRateMonitoringActive)
         }
-        
-        
     }
+    
+    func fetchMonthlyAverageOfDailyMaxRestingHeartRates() {
+        let healthStore = HKHealthStore()
+        guard let restingHeartRateType = HKQuantityType.quantityType(forIdentifier: .restingHeartRate) else {
+            print("Resting Heart Rate type is not available in HealthKit")
+            return
+        }
+        
+        let calendar = Calendar.current
+        let endDate = Date() // Heute
+        let startDate = calendar.date(byAdding: .month, value: -1, to: endDate)! // Vor einem Monat
+        
+        // Definieren eines täglichen Intervalls
+        var components = DateComponents()
+        components.day = 1 // Tägliche Erfassung
+
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+        
+        let query = HKStatisticsCollectionQuery(quantityType: restingHeartRateType,
+                                                quantitySamplePredicate: predicate,
+                                                options: .discreteMax,
+                                                anchorDate: startDate,
+                                                intervalComponents: components)
+        
+        query.initialResultsHandler = { query, results, error in
+            guard let statsCollection = results else {
+                print("An error occurred fetching the user's statistics: \(String(describing: error))")
+                return
+            }
+            
+            var maxValues = [Double]()
+            print("Collected highest daily resting heart rates over the last month:")
+            statsCollection.enumerateStatistics(from: startDate, to: endDate) { statistics, stop in
+                if let quantity = statistics.maximumQuantity() {
+                    let maxValue = quantity.doubleValue(for: HKUnit(from: "count/min"))
+                    maxValues.append(maxValue)
+                    print("Date: \(statistics.startDate) - Max: \(maxValue) BPM")
+                }
+            }
+            
+            if !maxValues.isEmpty {
+                let averageMax = maxValues.reduce(0, +) / Double(maxValues.count)
+                DispatchQueue.main.async {
+                    print("Average of the highest daily resting heart rates for the last month is: \(averageMax) BPM")
+                }
+            } else {
+                print("No resting heart rate data available for the last month.")
+            }
+        }
+        
+        healthStore.execute(query)
+    }
+ 
+    
 
 }
