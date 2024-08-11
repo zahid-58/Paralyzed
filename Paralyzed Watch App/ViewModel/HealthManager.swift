@@ -22,6 +22,7 @@ class HealthManager: ObservableObject {
     var heartRateData: [Double] = []
     
     @Published var averageHeartRate: Double = 0
+    static var heartRateLimit: Double = 60
     
     func requestAuthorization() {
         print("Requesting authorization...")
@@ -42,7 +43,7 @@ class HealthManager: ObservableObject {
         healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, error in
             if success {
                 // Zum Testen:
-                self?.fetchMonthlyAverageOfDailyMaxRestingHeartRates()
+                self?.startStopTimer()
                 print("Authorization granted.")
             } else {
                 if let error = error {

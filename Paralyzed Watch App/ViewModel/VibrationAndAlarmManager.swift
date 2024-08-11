@@ -21,49 +21,117 @@ class VibrationAndAlarmManager: ObservableObject {
 
     // Funktionen, um die entsprechenden Aktionen auszuführen.
     func activateVibration() {
-        // Implementiere hier die Logik für die Aktivierung der Vibration.
-        // Dies könnte z.B. das Auslösen eines Haptik-Feedbacks beinhalten.
-        WKInterfaceDevice.current().play(.failure)
-        
-        print("Vibration activated")
-    }
-    
-    func activateAlarm() {
-        guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
-            print("Audio file not found")
-            return
-        }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-            audioPlayer?.play()
-        } catch {
-            print("Failed to play audio: \(error)")
-        }
-        
-        print("Alarm Sound Playing")
-    }
-    
-    func activateBoth() {
+        doneButtonClicked = false
+
         
         DispatchQueue.main.async {
-            //timer?.invalidate() // Stoppe den vorhandenen Timer, falls aktiv
+            
             self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
 
                 if self!.doneButtonClicked {
                     
+                    print("done wurde geklickt")
                     self!.timer?.invalidate()
                     self!.timer = nil
                     self!.doneButtonClicked = false
                     
                 }else{
                     
+                    print("done wurde NICHT geklickt")
+
+                    // Implementiere hier die Logik für die Aktivierung der Vibration.
+                    // Dies könnte z.B. das Auslösen eines Haptik-Feedbacks beinhalten.
+                    WKInterfaceDevice.current().play(.failure)
+                    
+                    print("Vibration activated")
+                    
+                }
+
+                
+            }
+        }
+        
+        
+    }
+    
+    func activateAlarm() {
+        doneButtonClicked = false
+        
+        
+        DispatchQueue.main.async {
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
+
+                if self!.doneButtonClicked {
+                    
+                    print("done wurde geklickt")
+                    self!.timer?.invalidate()
+                    self!.timer = nil
+                    self!.doneButtonClicked = false
+                    
+                }else{
+                    
+                    print("done wurde NICHT geklickt")
+
+                    guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
+                        print("Audio file not found")
+                        return
+                    }
+                    
+                    do {
+                        self!.audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                        self!.audioPlayer?.play()
+                    } catch {
+                        print("Failed to play audio: \(error)")
+                    }
+                    
+                    print("Alarm Sound Playing")
+                    
+                }
+
+                
+            }
+        }
+    }
+    
+    func activateBoth() {
+        doneButtonClicked = false
+        
+        DispatchQueue.main.async {
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
+
+                if self!.doneButtonClicked {
+                    
+                    print("done wurde geklickt")
+                    self!.timer?.invalidate()
+                    self!.timer = nil
+                    self!.doneButtonClicked = false
+                    
+                }else{
+                    
+                    print("done wurde NICHT geklickt")
                     print("IST IN ACTIVEBOTH")
                     // Hier könntest du beide Aktionen gleichzeitig ausführen.
-                    self?.activateVibration()
+                    
+                    WKInterfaceDevice.current().play(.failure)
+                    
+                    print("Vibration activated")
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        self?.activateAlarm()
+                        guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
+                            print("Audio file not found")
+                            return
+                        }
+                        
+                        do {
+                            self!.audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                            self!.audioPlayer?.play()
+                        } catch {
+                            print("Failed to play audio: \(error)")
+                        }
+                        
+                        print("Alarm Sound Playing")
                     }
                     
                 }
@@ -76,18 +144,6 @@ class VibrationAndAlarmManager: ObservableObject {
 
     }
     
-    // Eine Funktion, die basierend auf der Einstellung die entsprechende Aktion ausführt.
-    func executeAction() {
-        switch activeToggle {
-        case 1:
-            activateVibration()
-        case 2:
-            activateAlarm()
-        case 3:
-            activateBoth()
-        default:
-            print("No action specified")
-        }
-    }
+    
 }
 
