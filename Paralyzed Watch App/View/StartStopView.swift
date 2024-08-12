@@ -12,9 +12,6 @@ struct StartStopView: View {
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false // Zustandsvariable für die Anzeige der ImpactNotificationView
     
-    //---neu
-    //@ObservedObject var managerProvider = ManagerProvider.shared
-    
     @State private var motionActive: Bool = false
     
     @StateObject private var motionManager = MotionManager()
@@ -25,14 +22,7 @@ struct StartStopView: View {
                 if !isActivated{
                     Button("Tap to activate") {
                         isActivated = true
-                        
                         healthManager.requestAuthorization()
-                        //Ist das unten nicht redundant? da im request funktion schon gestartet wird
-                        //healthManager.startHeartRateMonitoring()
-                        
-                        //---neu
-                        //managerProvider.motionManager.startMonitoring(for: 10.0)
-                        
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.green)
@@ -55,19 +45,14 @@ struct StartStopView: View {
                 //Hier ist unser Algo im Moment zum detektieren
                 Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthManager.averageHeartRate) { newValue in
-                        if newValue > HealthManager.heartRateLimit { // Setze den Schwellenwert nach Bedarf
+                        if newValue > Config.loadHeartrateLimit() { // Setze den Schwellenwert nach Bedarf
                             
                             healthManager.stopMonitoringAndTimer()
                             healthManager.isMonitoring = false
-                            //isActivated = false
                             healthManager.averageHeartRate = 0
                             
                             motionManager.startMonitoring(for: 10)
                             motionActive = true
-                            
-                            
-                            
-                            //showImpactNotificationView = true
 
                         }
                     }

@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    //@State private var activeToggle: Int = 3 // 1 für Vibration, 2 für Alarm, 3 für Vibration und Alarm
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
-    @State private var selectedHeartRate: Double = HealthManager.heartRateLimit // Beispielinitialwert als Double
+    @State private var selectedHeartRate: Double = Config.loadHeartrateLimit()
 
     var body: some View {
         NavigationView{
@@ -29,8 +28,8 @@ struct SettingsView: View {
                     
                     
                     Button(action: {
-                        HealthManager.heartRateLimit = selectedHeartRate
-            
+                        Config.saveHeartrateLimit(limit: selectedHeartRate)
+                        
                         // Haptisches Feedback geben
                         WKInterfaceDevice.current().play(.success)
                     }) {
@@ -61,21 +60,30 @@ struct SettingsView: View {
                 Toggle("Vibration", isOn: Binding<Bool>(
                     get: { self.vibrationAndAlarmManager.activeToggle == 1 },
                     set: { newValue in
-                        if newValue { self.vibrationAndAlarmManager.activeToggle = 1 }
+                        if newValue { 
+                            self.vibrationAndAlarmManager.activeToggle = 1
+                            Config.saveSettingsToggle(active: 1)
+                        }
                     }
                 ))
                 
                 Toggle("Alarm", isOn: Binding<Bool>(
                     get: { self.vibrationAndAlarmManager.activeToggle == 2 },
                     set: { newValue in
-                        if newValue { self.vibrationAndAlarmManager.activeToggle = 2 }
+                        if newValue {
+                            self.vibrationAndAlarmManager.activeToggle = 2
+                            Config.saveSettingsToggle(active: 2)
+                        }
                     }
                 ))
                 
                 Toggle("Vibration und Alarm", isOn: Binding<Bool>(
                     get: { self.vibrationAndAlarmManager.activeToggle == 3 },
                     set: { newValue in
-                        if newValue { self.vibrationAndAlarmManager.activeToggle = 3 }
+                        if newValue {
+                            self.vibrationAndAlarmManager.activeToggle = 3
+                            Config.saveSettingsToggle(active: 3)
+                        }
                     }
                 ))
             }

@@ -27,7 +27,7 @@ class MotionManager: ObservableObject{
         yValues.removeAll()
         zValues.removeAll()
 
-        motionManager.accelerometerUpdateInterval = 1.0 / 2.0 // Daten 60 Mal pro Sekunde aktualisieren
+        motionManager.accelerometerUpdateInterval = 1.0 / 2.0 // Daten werden 2 Mal pro Sekunde aktualisiert
         motionManager.startAccelerometerUpdates(to: .main) { [weak self] (data, error) in
             guard let data = data else {
                 print("Fehler beim Abrufen von Accelerometer-Daten: \(error?.localizedDescription ?? "Unbekannter Fehler")")
@@ -53,7 +53,7 @@ class MotionManager: ObservableObject{
             }
             
             if self.motionNotDetected == 2 {
-                print("ewegung erkannt.")
+                print("Bewegung erkannt.")
             }
             
         }

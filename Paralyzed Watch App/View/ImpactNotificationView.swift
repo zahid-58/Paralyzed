@@ -34,15 +34,15 @@ struct ImpactNotificationView: View {
                     .onAppear{
                         
                         if vibrationAndAlarmManager.activeToggle == 1{
-                            vibrationAndAlarmManager.activateVibration()
+                            vibrationAndAlarmManager.startAction(type: .vibration)
                         }
                         
                         if vibrationAndAlarmManager.activeToggle == 2{
-                            vibrationAndAlarmManager.activateAlarm()
+                            vibrationAndAlarmManager.startAction(type: .alarm)
                         }
                         
                         if vibrationAndAlarmManager.activeToggle == 3{
-                            vibrationAndAlarmManager.activateBoth()
+                            vibrationAndAlarmManager.startAction(type: .both)
                         }
                         
                         

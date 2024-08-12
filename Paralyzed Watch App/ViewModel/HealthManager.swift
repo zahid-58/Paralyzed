@@ -22,7 +22,6 @@ class HealthManager: ObservableObject {
     var heartRateData: [Double] = []
     
     @Published var averageHeartRate: Double = 0
-    static var heartRateLimit: Double = 60
     
     func requestAuthorization() {
         print("Requesting authorization...")
@@ -38,11 +37,10 @@ class HealthManager: ObservableObject {
             return
         }
 
-        let typesToRead: Set<HKObjectType> = [heartRateType, restingHeartRateType]
+        let typesToRead: Set<HKObjectType> = [heartRateType]
         
         healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, error in
             if success {
-                // Zum Testen:
                 self?.startStopTimer()
                 print("Authorization granted.")
             } else {
@@ -146,59 +144,6 @@ class HealthManager: ObservableObject {
             print("Is heart rate active? " , isHeartRateMonitoringActive)
         }
     }
-    
-    func fetchMonthlyAverageOfDailyMaxRestingHeartRates() {
-        let healthStore = HKHealthStore()
-        guard let restingHeartRateType = HKQuantityType.quantityType(forIdentifier: .restingHeartRate) else {
-            print("Resting Heart Rate type is not available in HealthKit")
-            return
-        }
-        
-        let calendar = Calendar.current
-        let endDate = Date() // Heute
-        let startDate = calendar.date(byAdding: .month, value: -1, to: endDate)! // Vor einem Monat
-        
-        // Definieren eines täglichen Intervalls
-        var components = DateComponents()
-        components.day = 1 // Tägliche Erfassung
-
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
-        
-        let query = HKStatisticsCollectionQuery(quantityType: restingHeartRateType,
-                                                quantitySamplePredicate: predicate,
-                                                options: .discreteMax,
-                                                anchorDate: startDate,
-                                                intervalComponents: components)
-        
-        query.initialResultsHandler = { query, results, error in
-            guard let statsCollection = results else {
-                print("An error occurred fetching the user's statistics: \(String(describing: error))")
-                return
-            }
-            
-            var maxValues = [Double]()
-            print("Collected highest daily resting heart rates over the last month:")
-            statsCollection.enumerateStatistics(from: startDate, to: endDate) { statistics, stop in
-                if let quantity = statistics.maximumQuantity() {
-                    let maxValue = quantity.doubleValue(for: HKUnit(from: "count/min"))
-                    maxValues.append(maxValue)
-                    print("Date: \(statistics.startDate) - Max: \(maxValue) BPM")
-                }
-            }
-            
-            if !maxValues.isEmpty {
-                let averageMax = maxValues.reduce(0, +) / Double(maxValues.count)
-                DispatchQueue.main.async {
-                    print("Average of the highest daily resting heart rates for the last month is: \(averageMax) BPM")
-                }
-            } else {
-                print("No resting heart rate data available for the last month.")
-            }
-        }
-        
-        healthStore.execute(query)
-    }
  
     
-
 }
