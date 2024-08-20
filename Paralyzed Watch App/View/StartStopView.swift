@@ -15,6 +15,7 @@ struct StartStopView: View {
     @State private var motionActive: Bool = false
     
     @StateObject private var motionManager = MotionManager()
+    @StateObject private var motionDataRecorder = MotionDataRecorder()
     
     var body: some View {
         NavigationView{
@@ -22,7 +23,8 @@ struct StartStopView: View {
                 if !isActivated{
                     Button("Tap to activate") {
                         isActivated = true
-                        healthManager.requestAuthorization()
+                        //healthManager.requestAuthorization()
+                        motionDataRecorder.startRecording(label: "schnell")
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.green)
@@ -48,9 +50,7 @@ struct StartStopView: View {
                         if newValue > Config.loadHeartrateLimit() { // Setze den Schwellenwert nach Bedarf
                             
                             healthManager.stopMonitoringAndTimer()
-                            healthManager.isMonitoring = false
-                            healthManager.averageHeartRate = 0
-                            
+                            healthManager.isMonitoring = false      
                             motionManager.startMonitoring(for: 10)
                             motionActive = true
 

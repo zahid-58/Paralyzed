@@ -1,5 +1,5 @@
 //
-//  HealthAndMotionManager.swift
+//  HealthManager.swift
 //  Paralyzed Watch App
 //
 //  Created by Muhammed Zahid Fırat on 19.02.24.
@@ -18,7 +18,7 @@ class HealthManager: ObservableObject {
     @Published var heartRate: Double = 0
     @Published var isHeartRateMonitoringActive: Bool = false
     
-    // Eigenschaft zur Speicherung der Herzfrequenzdaten
+    
     var heartRateData: [Double] = []
     
     @Published var averageHeartRate: Double = 0
