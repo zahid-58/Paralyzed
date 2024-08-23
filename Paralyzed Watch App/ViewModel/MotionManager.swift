@@ -70,13 +70,22 @@ class MotionManager: ObservableObject{
     }
 
     func calculateAndPrintAverageDifferences() {
-        printAverageDifference(for: xValues, axis: "X")
-        printAverageDifference(for: yValues, axis: "Y")
-        printAverageDifference(for: zValues, axis: "Z")
+        var averageDifferenceList: [Int] = []
+        
+        averageDifferenceList.append(printAverageDifference(for: xValues, axis: "X"))
+        averageDifferenceList.append(printAverageDifference(for: yValues, axis: "Y"))
+        averageDifferenceList.append(printAverageDifference(for: zValues, axis: "Z"))
+        
+        if averageDifferenceList.contains(2) {
+            motionNotDetected = 2
+        }else{
+            motionNotDetected = 1
+        }
+    
     }
 
-    func printAverageDifference(for values: [Double], axis: String) {
-        guard let firstValue = values.first else { return }
+    func printAverageDifference(for values: [Double], axis: String) -> Int{
+        guard let firstValue = values.first else { return -1}
         
         // Liste für die Speicherung der absoluten Differenzen
         var differences: [Double] = []
@@ -97,12 +106,13 @@ class MotionManager: ObservableObject{
         // Prüfe, ob die Anzahl der Differenzen größer als 0 ist, um Division durch Null zu vermeiden
         let averageDifference = numberOfDifferences > 0 ? sumOfDifferences / numberOfDifferences : 0.0
         
-        if averageDifference < 0.2 {
-            motionNotDetected = 1
+        print("Durchschnittliche absolute Differenz für Achse \(axis): \(String(format: "%.4f", averageDifference))")
+        
+        if averageDifference < 0.1 {
+            return 1
         }else{
-            motionNotDetected = 2
+            return 2
         }
         
-        print("Durchschnittliche absolute Differenz für Achse \(axis): \(String(format: "%.4f", averageDifference))")
     }
 }

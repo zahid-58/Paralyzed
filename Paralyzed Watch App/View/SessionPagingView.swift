@@ -20,7 +20,6 @@ struct SessionPagingView: View {
             SummaryView().tag(Tab.summary)
             StartStopView().tag(Tab.startStop)
             SettingsView().tag(Tab.settings)
-            
         }
     }
 }

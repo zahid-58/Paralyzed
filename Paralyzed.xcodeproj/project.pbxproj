@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3102AEF42B8179D200F716AF /* SessionPagingView.swift */; };
 		31255F1F2BFFB50200DC2C9E /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31255F1E2BFFB50200DC2C9E /* alarm.mp3 */; };
+		313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313D26432C77EE3E00E65D93 /* WelcomeView.swift */; };
 		314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314779C92B7D0FA900C8EADC /* SettingsView.swift */; };
 		31536F372B83A77600176F6F /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F362B83A77600176F6F /* SummaryView.swift */; };
 		31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F392B84065C00176F6F /* HealthManager.swift */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		3102AEF42B8179D200F716AF /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
 		31255F1E2BFFB50200DC2C9E /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = SOURCE_ROOT; };
+		313D26432C77EE3E00E65D93 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		314779C92B7D0FA900C8EADC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		31536F362B83A77600176F6F /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		31536F392B84065C00176F6F /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
@@ -82,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		313D26422C77EDDE00E65D93 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				313D26432C77EE3E00E65D93 /* WelcomeView.swift */,
+			);
+			path = Welcome;
+			sourceTree = "<group>";
+		};
 		31536F382B84061200176F6F /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 				31255F1E2BFFB50200DC2C9E /* alarm.mp3 */,
 				31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */,
 				31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */,
+				313D26422C77EDDE00E65D93 /* Welcome */,
 				31D96C212B67077800A1B16A /* View */,
 				31536F382B84061200176F6F /* ViewModel */,
 				31D96C132B66F9DE00A1B16A /* Assets.xcassets */,
@@ -254,6 +265,7 @@
 				31B7E9992C6A83E1008AEB4E /* Config.swift in Sources */,
 				31536F372B83A77600176F6F /* SummaryView.swift in Sources */,
 				31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */,
+				313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */,
 				31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */,
 				31D96C102B66F9DD00A1B16A /* ParalyzedApp.swift in Sources */,
 				3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */,
