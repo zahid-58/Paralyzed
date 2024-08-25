@@ -7,6 +7,7 @@
 
 import CoreMotion
 import Foundation
+import RealmSwift
 
 class MotionManager: ObservableObject{
     let motionManager = CMMotionManager()
@@ -15,6 +16,8 @@ class MotionManager: ObservableObject{
     var xValues: [Double] = []
     var yValues: [Double] = []
     var zValues: [Double] = []
+    
+    @ObservedResults(MotionData.self) var motiondb
 
     // Funktion zum Starten der Bewegungsüberwachung
     func startMonitoring(for duration: TimeInterval) {
@@ -40,6 +43,17 @@ class MotionManager: ObservableObject{
             self?.xValues.append(data.acceleration.x)
             self?.yValues.append(data.acceleration.y)
             self?.zValues.append(data.acceleration.z)
+            
+            let motionRow = MotionData()
+            
+            motionRow.x = data.acceleration.x
+            motionRow.y = data.acceleration.y
+            motionRow.z = data.acceleration.z
+            motionRow.timestamp = Date()
+            motionRow.scanid = HealthManager.scanid
+            motionRow.detected = false
+            
+            self?.$motiondb.append(motionRow)
 
         }
 
@@ -50,6 +64,23 @@ class MotionManager: ObservableObject{
             self.calculateAndPrintAverageDifferences()
             if self.motionNotDetected == 1 {
                 print("Keine Bewegung erkannt.")
+                
+                // Alle relevanten Datensätze in der MotionData-Tabelle auf detected = true setzen
+                if let realm = try? Realm() {
+                    try? realm.write {
+                        let motionResults = realm.objects(MotionData.self).filter("scanid == %@", HealthManager.scanid!)
+                        motionResults.setValue(true, forKey: "detected")
+                    }
+                }
+                
+                // Alle relevanten Datensätze in der HeartRateData-Tabelle auf detected = true setzen
+                if let realm = try? Realm() {
+                    try? realm.write {
+                        let heartRateResults = realm.objects(HeartRateData.self).filter("scanid == %@", HealthManager.scanid!)
+                        heartRateResults.setValue(true, forKey: "detected")
+                    }
+                }
+                
             }
             
             if self.motionNotDetected == 2 {

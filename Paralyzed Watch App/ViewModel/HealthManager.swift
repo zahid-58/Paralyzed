@@ -8,6 +8,8 @@
 import Foundation
 import HealthKit
 import CoreMotion
+import RealmSwift
+
 
 class HealthManager: ObservableObject {
     private var healthStore = HKHealthStore()
@@ -18,10 +20,14 @@ class HealthManager: ObservableObject {
     @Published var heartRate: Double = 0
     @Published var isHeartRateMonitoringActive: Bool = false
     
-    
     var heartRateData: [Double] = []
     
     @Published var averageHeartRate: Double = 0
+    
+    @ObservedResults(HeartRateData.self) var heartRatedb
+    
+    static var scanid: UUID? = nil
+  
     
     func requestAuthorization() {
         print("Requesting authorization...")
@@ -43,6 +49,8 @@ class HealthManager: ObservableObject {
             if success {
                 self?.startStopTimer()
                 print("Authorization granted.")
+                // Aufrufen der Funktion
+                self?.listFilesInDocumentsDirectory()
             } else {
                 if let error = error {
                     print("Authorization failed with error: \(error.localizedDescription)")
@@ -65,6 +73,8 @@ class HealthManager: ObservableObject {
         // Setzen Sie isHeartRateMonitoringActive auf true, wenn die Überwachung startet
         self.isHeartRateMonitoringActive = true
         
+        HealthManager.scanid = UUID()
+        
         
         
         // Leerer Block für den initialen Datenabruf
@@ -80,6 +90,15 @@ class HealthManager: ObservableObject {
                 self?.heartRate = latestSample ?? 0
                 self?.heartRateData.append(latestSample ?? 0)
                 print("Heart Rate: \(self?.heartRate ?? 0)")
+                
+                let heartRateRow = HeartRateData()
+                heartRateRow.heartrate = latestSample ?? 0
+                heartRateRow.timestamp = Date()
+                heartRateRow.scanid = HealthManager.scanid
+                heartRateRow.detected = false
+                
+                self?.$heartRatedb.append(heartRateRow)
+                
             }
         }
     
@@ -142,6 +161,25 @@ class HealthManager: ObservableObject {
             self.isHeartRateMonitoringActive = false
             heartRateQuery = nil
             print("Is heart rate active? " , isHeartRateMonitoringActive)
+        }
+    }
+    
+    func listFilesInDocumentsDirectory() {
+        let fileManager = FileManager.default
+        
+        // Pfad zum Documents-Verzeichnis abrufen
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        do {
+            // Inhalte des Documents-Verzeichnisses auflisten
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil)
+            
+            print("Inhalt des Documents-Verzeichnisses:")
+            for fileURL in fileURLs {
+                print(fileURL.lastPathComponent)
+            }
+        } catch {
+            print("Fehler beim Auflisten der Dateien im Documents-Verzeichnis: \(error)")
         }
     }
  

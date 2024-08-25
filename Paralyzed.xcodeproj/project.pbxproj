@@ -13,7 +13,11 @@
 		314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314779C92B7D0FA900C8EADC /* SettingsView.swift */; };
 		31536F372B83A77600176F6F /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F362B83A77600176F6F /* SummaryView.swift */; };
 		31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31536F392B84065C00176F6F /* HealthManager.swift */; };
+		318C3B692C7B934200B864A2 /* MotionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318C3B682C7B934200B864A2 /* MotionData.swift */; };
+		31AA1C292C7A952D00C05A4F /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 31BB51242C7A855000741326 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		31B7E9992C6A83E1008AEB4E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B7E9982C6A83E1008AEB4E /* Config.swift */; };
+		31BB51252C7A855000741326 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 31BB51242C7A855000741326 /* RealmSwift */; };
+		31BB51272C7A85C600741326 /* HeartRateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BB51262C7A85C600741326 /* HeartRateData.swift */; };
 		31CC81832BAC9C0700C99974 /* modern_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */; };
 		31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */; };
 		31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */; };
@@ -37,6 +41,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		31AA1C2A2C7A952D00C05A4F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				31AA1C292C7A952D00C05A4F /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		31D96C1D2B66F9DE00A1B16A /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,7 +72,9 @@
 		314779C92B7D0FA900C8EADC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		31536F362B83A77600176F6F /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
 		31536F392B84065C00176F6F /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		318C3B682C7B934200B864A2 /* MotionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionData.swift; sourceTree = "<group>"; };
 		31B7E9982C6A83E1008AEB4E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		31BB51262C7A85C600741326 /* HeartRateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateData.swift; sourceTree = "<group>"; };
 		31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = modern_alarm.mp3; sourceTree = SOURCE_ROOT; };
 		31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VibrationAndAlarmManager.swift; sourceTree = "<group>"; };
 		31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImpactNotificationView.swift; sourceTree = "<group>"; };
@@ -78,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31BB51252C7A855000741326 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +120,15 @@
 				31D65B5A2C72313800115E9E /* MotionDataRecorder.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		31BB511C2C7A62D700741326 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				31BB51262C7A85C600741326 /* HeartRateData.swift */,
+				318C3B682C7B934200B864A2 /* MotionData.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		31D96BFD2B66F9DD00A1B16A = {
@@ -129,6 +156,7 @@
 				31255F1E2BFFB50200DC2C9E /* alarm.mp3 */,
 				31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */,
 				31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */,
+				31BB511C2C7A62D700741326 /* Models */,
 				313D26422C77EDDE00E65D93 /* Welcome */,
 				31D96C212B67077800A1B16A /* View */,
 				31536F382B84061200176F6F /* ViewModel */,
@@ -185,12 +213,16 @@
 				31D96C062B66F9DD00A1B16A /* Sources */,
 				31D96C072B66F9DD00A1B16A /* Frameworks */,
 				31D96C082B66F9DD00A1B16A /* Resources */,
+				31AA1C2A2C7A952D00C05A4F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Paralyzed Watch App";
+			packageProductDependencies = (
+				31BB51242C7A855000741326 /* RealmSwift */,
+			);
 			productName = "Paralyzed Watch App";
 			productReference = 31D96C0A2B66F9DD00A1B16A /* Paralyzed Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -222,6 +254,9 @@
 				Base,
 			);
 			mainGroup = 31D96BFD2B66F9DD00A1B16A;
+			packageReferences = (
+				31BB51212C7A855000741326 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = 31D96C052B66F9DD00A1B16A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -260,10 +295,12 @@
 			files = (
 				314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */,
 				31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */,
+				31BB51272C7A85C600741326 /* HeartRateData.swift in Sources */,
 				31D65B5B2C72313800115E9E /* MotionDataRecorder.swift in Sources */,
 				31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */,
 				31B7E9992C6A83E1008AEB4E /* Config.swift in Sources */,
 				31536F372B83A77600176F6F /* SummaryView.swift in Sources */,
+				318C3B692C7B934200B864A2 /* MotionData.swift in Sources */,
 				31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */,
 				313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */,
 				31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */,
@@ -533,6 +570,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		31BB51212C7A855000741326 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		31BB51242C7A855000741326 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31BB51212C7A855000741326 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 31D96BFE2B66F9DD00A1B16A /* Project object */;
 }
