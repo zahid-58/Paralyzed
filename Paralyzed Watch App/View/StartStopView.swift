@@ -76,11 +76,18 @@ struct StartStopView: View {
             }
             .navigationBarBackButtonHidden()
             .fullScreenCover(isPresented: $showImpactNotificationView) {
-                ImpactNotificationView(showImpactNotificationView: $showImpactNotificationView)
+                ZStack {
+                    Color.black.edgesIgnoringSafeArea(.all) // Schwarzer Hintergrund
+                    ImpactNotificationView(showImpactNotificationView: $showImpactNotificationView)
+                }
             }
             .fullScreenCover(isPresented: .constant(!isWelcomeScreenOver)) {
-                WelcomeView(isWelcomeScreenOver: $isWelcomeScreenOver)
-                    .navigationBarHidden(true) // Verbirgt die NavigationBar in der WelcomeView
+                ZStack {
+                    Color.black.edgesIgnoringSafeArea(.all) // Schwarzer Hintergrund
+                    WelcomeView1(isWelcomeScreenOver: $isWelcomeScreenOver)
+                        .navigationBarHidden(true)
+                }
+                .padding(.bottom, 20)
             }
         }
     }
@@ -102,7 +109,7 @@ struct StartStopView: View {
         
         // URL des Discord Webhooks
         let webhookURL = URL(string: "https://discord.com/api/webhooks/1223418868467499199/UOAUGjmezHHkJNbKp0yRfX7M4Bu9Fk5gjYmFy_e-pydLym1lLWwg0blPEN12RZ5ETadi")!
-
+        
         // Dateiinhalt lesen
         do {
             let fileData = try Data(contentsOf: realmFileURL)

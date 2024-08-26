@@ -49,8 +49,6 @@ class HealthManager: ObservableObject {
             if success {
                 self?.startStopTimer()
                 print("Authorization granted.")
-                // Aufrufen der Funktion
-                self?.listFilesInDocumentsDirectory()
             } else {
                 if let error = error {
                     print("Authorization failed with error: \(error.localizedDescription)")
@@ -163,25 +161,5 @@ class HealthManager: ObservableObject {
             print("Is heart rate active? " , isHeartRateMonitoringActive)
         }
     }
-    
-    func listFilesInDocumentsDirectory() {
-        let fileManager = FileManager.default
-        
-        // Pfad zum Documents-Verzeichnis abrufen
-        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
-        do {
-            // Inhalte des Documents-Verzeichnisses auflisten
-            let fileURLs = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil)
-            
-            print("Inhalt des Documents-Verzeichnisses:")
-            for fileURL in fileURLs {
-                print(fileURL.lastPathComponent)
-            }
-        } catch {
-            print("Fehler beim Auflisten der Dateien im Documents-Verzeichnis: \(error)")
-        }
-    }
- 
     
 }
