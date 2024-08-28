@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3102AEF42B8179D200F716AF /* SessionPagingView.swift */; };
 		31255F1F2BFFB50200DC2C9E /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31255F1E2BFFB50200DC2C9E /* alarm.mp3 */; };
-		313785D32C7D079100F278FD /* MotionDataNormal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313785D22C7D079100F278FD /* MotionDataNormal.swift */; };
-		313785D52C7D080100F278FD /* MotionDataSchnell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313785D42C7D080100F278FD /* MotionDataSchnell.swift */; };
 		313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313D26432C77EE3E00E65D93 /* WelcomeView.swift */; };
 		314175722C7CA947004566F8 /* WelcomeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314175712C7CA947004566F8 /* WelcomeView3.swift */; };
 		314175742C7CBB04004566F8 /* WelcomeView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314175732C7CBB04004566F8 /* WelcomeView4.swift */; };
@@ -33,6 +31,8 @@
 		31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D96C112B66F9DD00A1B16A /* StartStopView.swift */; };
 		31D96C142B66F9DE00A1B16A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D96C132B66F9DE00A1B16A /* Assets.xcassets */; };
 		31D96C172B66F9DE00A1B16A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D96C162B66F9DE00A1B16A /* Preview Assets.xcassets */; };
+		31E24A892C7F99DA00A52D46 /* AudioML_v2.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 31E24A882C7F99DA00A52D46 /* AudioML_v2.mlmodel */; };
+		31E24A8B2C7F9A5500A52D46 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E24A8A2C7F9A5500A52D46 /* AudioManager.swift */; };
 		31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FD78982C1B34D8008C207B /* MotionManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,8 +74,6 @@
 /* Begin PBXFileReference section */
 		3102AEF42B8179D200F716AF /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
 		31255F1E2BFFB50200DC2C9E /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = SOURCE_ROOT; };
-		313785D22C7D079100F278FD /* MotionDataNormal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDataNormal.swift; sourceTree = "<group>"; };
-		313785D42C7D080100F278FD /* MotionDataSchnell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDataSchnell.swift; sourceTree = "<group>"; };
 		313D26432C77EE3E00E65D93 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		314175712C7CA947004566F8 /* WelcomeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView3.swift; sourceTree = "<group>"; };
 		314175732C7CBB04004566F8 /* WelcomeView4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView4.swift; sourceTree = "<group>"; };
@@ -99,6 +97,8 @@
 		31D96C112B66F9DD00A1B16A /* StartStopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopView.swift; sourceTree = "<group>"; };
 		31D96C132B66F9DE00A1B16A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31D96C162B66F9DE00A1B16A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		31E24A882C7F99DA00A52D46 /* AudioML_v2.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = AudioML_v2.mlmodel; sourceTree = "<group>"; };
+		31E24A8A2C7F9A5500A52D46 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		31FD78982C1B34D8008C207B /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +134,7 @@
 				31FD78982C1B34D8008C207B /* MotionManager.swift */,
 				31B7E9982C6A83E1008AEB4E /* Config.swift */,
 				31D65B5A2C72313800115E9E /* MotionDataRecorder.swift */,
+				31E24A8A2C7F9A5500A52D46 /* AudioManager.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -143,8 +144,6 @@
 			children = (
 				31BB51262C7A85C600741326 /* HeartRateData.swift */,
 				318C3B682C7B934200B864A2 /* MotionData.swift */,
-				313785D22C7D079100F278FD /* MotionDataNormal.swift */,
-				313785D42C7D080100F278FD /* MotionDataSchnell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -174,6 +173,7 @@
 				31255F1E2BFFB50200DC2C9E /* alarm.mp3 */,
 				31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */,
 				31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */,
+				31E24A882C7F99DA00A52D46 /* AudioML_v2.mlmodel */,
 				31BB511C2C7A62D700741326 /* Models */,
 				313D26422C77EDDE00E65D93 /* Welcome */,
 				31D96C212B67077800A1B16A /* View */,
@@ -318,11 +318,10 @@
 				314175742C7CBB04004566F8 /* WelcomeView4.swift in Sources */,
 				31D65B5B2C72313800115E9E /* MotionDataRecorder.swift in Sources */,
 				31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */,
+				31E24A892C7F99DA00A52D46 /* AudioML_v2.mlmodel in Sources */,
 				31B7E9992C6A83E1008AEB4E /* Config.swift in Sources */,
-				313785D32C7D079100F278FD /* MotionDataNormal.swift in Sources */,
 				318C3B6D2C7BEB8000B864A2 /* WelcomeView2.swift in Sources */,
 				31536F372B83A77600176F6F /* SummaryView.swift in Sources */,
-				313785D52C7D080100F278FD /* MotionDataSchnell.swift in Sources */,
 				318C3B692C7B934200B864A2 /* MotionData.swift in Sources */,
 				31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */,
 				313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */,
@@ -330,6 +329,7 @@
 				31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */,
 				31D96C102B66F9DD00A1B16A /* ParalyzedApp.swift in Sources */,
 				3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */,
+				31E24A8B2C7F9A5500A52D46 /* AudioManager.swift in Sources */,
 				31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,6 +475,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Paralyzed;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Please allow access to enjoy all the features of our app";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy all the features of our app";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to enjoy all the features of our app";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Diese App benötigt Zugriff auf Bewegungsdaten, um festzustellen, ob Sie sich bewegen oder nicht.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -510,6 +511,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Paralyzed;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Please allow access to enjoy all the features of our app";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy all the features of our app";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to enjoy all the features of our app";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Diese App benötigt Zugriff auf Bewegungsdaten, um festzustellen, ob Sie sich bewegen oder nicht.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
