@@ -16,22 +16,16 @@ class HealthManager: ObservableObject {
     private var heartRateQuery: HKQuery? // Speichert die aktive Herzfrequenzabfrage
     private var timer: Timer? // Timer für regelmäßige Herzfrequenzupdates
     @Published var isMonitoring: Bool = false // Zustand der Überwachung
-    
     @Published var heartRate: Double = 0
     @Published var isHeartRateMonitoringActive: Bool = false
-    
     var heartRateData: [Double] = []
-    
     @Published var averageHeartRate: Double = 0
-    
     @ObservedResults(HeartRateData.self) var heartRatedb
-    
     static var scanid: UUID? = nil
     
     
     func requestAuthorization() {
         print("Requesting authorization...")
-        let healthStore = HKHealthStore()
         guard HKHealthStore.isHealthDataAvailable() else {
             print("Health data is not available on this device.")
             return
@@ -107,7 +101,7 @@ class HealthManager: ObservableObject {
         
         // Timer einrichten, um die Überwachung zu stoppen
          DispatchQueue.main.async {
-             self.timer = Timer.scheduledTimer(withTimeInterval: 25, repeats: false) { [weak self] _ in
+             self.timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { [weak self] _ in
                  guard let self = self else { return }
                  self.calculateAverageHeartRate()
                  self.stopMonitoringHeartRate()

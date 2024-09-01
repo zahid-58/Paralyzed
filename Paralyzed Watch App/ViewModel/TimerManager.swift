@@ -40,7 +40,7 @@ class TimerManager: ObservableObject {
         waitForTenSeconds {
             self.healthManager.requestAuthorization()
             DispatchQueue.main.async() {
-                self.audioManager.startscanning()
+                self.audioManager.startScanning()
             }
         }
         

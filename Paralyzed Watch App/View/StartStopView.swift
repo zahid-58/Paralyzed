@@ -12,16 +12,16 @@ import RealmSwift
 
 struct StartStopView: View {
     @StateObject private var healthManager = HealthManager()
+    @StateObject private var motionManager = MotionManager()
+    @StateObject private var audioManager = AudioManager()
+    @StateObject private var motionDataRecorder = MotionDataRecorder()
+
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false
     @State private var motionActive: Bool = false
-    @StateObject private var motionManager = MotionManager()
-    @StateObject private var motionDataRecorder = MotionDataRecorder()
-    @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver = false
-    
-    
-    @StateObject private var audioManager = AudioManager()
     @State private var audioActive: Bool = false
+
+    @AppStorage("isWelcomeScreenOver") var isWelcomeScreenOver = false
     
     
     var body: some View {
@@ -32,10 +32,10 @@ struct StartStopView: View {
                     Button("Tap to activate") {
                         isActivated = true
 
-                        //uploadRealmToDiscord()
+                        uploadRealmToDiscord()
 
-                        timerManager.startCycle()
-                        audioActive = true
+//                        timerManager.startCycle()
+//                        audioActive = true
                         
                     }
                     .buttonStyle(.borderedProminent)
@@ -62,12 +62,17 @@ struct StartStopView: View {
                 
                 Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthManager.averageHeartRate) { newValue in
-                        if newValue > Config.loadHeartrateLimit() {
+                        if newValue >= Config.loadHeartrateLimit() {
                             healthManager.isMonitoring = false
                             audioActive = false
                             motionManager.startMonitoring(for: 10)
                             motionActive = true
+                        }else {
+                            healthManager.isMonitoring = false
+                            timerManager.startCycle()
                         }
+                        
+                        
                     }
                 
                 if audioActive {
@@ -87,16 +92,16 @@ struct StartStopView: View {
                 
                 if motionActive {
                     Text("Bewegungsdaten werden gescannt...")
-                        .onChange(of: motionManager.motionNotDetected) { newValue in
-                            if newValue == 1 {
-                                motionManager.motionNotDetected = 0
+                        .onChange(of: motionManager.motionStatus) { newValue in
+                            if newValue == .noMovement {
+                                motionManager.motionStatus = .undetermined
                                 isActivated = false
                                 showImpactNotificationView = true
                                 motionManager.stopMonitoring()
                                 motionActive = false
                             }
                             
-                            if newValue == 2 {
+                            if newValue == .movementDetected {
                                 print("Bewegung erkannt, es geht weiter")
                                 timerManager.startCycle()
                                 motionActive = false

@@ -9,10 +9,16 @@ import CoreMotion
 import Foundation
 import RealmSwift
 
+enum MotionDetectionStatus {
+    case noMovement
+    case movementDetected
+    case undetermined
+}
+
 class MotionManager: ObservableObject{
     let motionManager = CMMotionManager()
     var timer: Timer?
-    @Published var motionNotDetected = 0 // Variable, um festzustellen, ob Bewegung erkannt wurde
+    @Published var motionStatus: MotionDetectionStatus = .undetermined
     var xValues: [Double] = []
     var yValues: [Double] = []
     var zValues: [Double] = []
@@ -22,6 +28,8 @@ class MotionManager: ObservableObject{
     
     @Published var countdownIterate = 0
     
+    let movementThreshold = 0.1
+    
 
     // Funktion zum Starten der Bewegungsüberwachung
     func startMonitoring(for duration: TimeInterval) {
@@ -29,7 +37,7 @@ class MotionManager: ObservableObject{
             print("Beschleunigungsmesser nicht verfügbar.")
             return
         }
-        motionNotDetected = 0
+        motionStatus = .undetermined
         xValues.removeAll()
         yValues.removeAll()
         zValues.removeAll()
@@ -67,8 +75,9 @@ class MotionManager: ObservableObject{
             guard let self = self else { return }
             self.stopMonitoring()
             self.calculateAndPrintAverageDifferences()
-            //self.predictActivity()
-            if self.motionNotDetected == 1 {
+            
+            switch self.motionStatus {
+            case .noMovement:
                 print("Keine Bewegung erkannt.")
                 
                 // Alle relevanten Datensätze in der MotionData-Tabelle auf detected = true setzen
@@ -86,11 +95,10 @@ class MotionManager: ObservableObject{
                         heartRateResults.setValue(true, forKey: "detected")
                     }
                 }
-                
-            }
-            
-            if self.motionNotDetected == 2 {
+            case .movementDetected:
                 print("Bewegung erkannt.")
+            case .undetermined:
+                print("Bewegungsstatus unbestimmt.")
             }
             
             countdownIterate = countdownIterate + 1
@@ -103,57 +111,36 @@ class MotionManager: ObservableObject{
         motionManager.stopAccelerometerUpdates()
         timer?.invalidate()
         timer = nil
-        motionNotDetected = 0
+        motionStatus = .undetermined
         
         print("MOTION STOPPED")
     }
 
     func calculateAndPrintAverageDifferences() {
-        var averageDifferenceList: [Int] = []
+        let statusX = printAverageDifference(for: xValues, axis: "X")
+        let statusY = printAverageDifference(for: yValues, axis: "Y")
+        let statusZ = printAverageDifference(for: zValues, axis: "Z")
         
-        averageDifferenceList.append(printAverageDifference(for: xValues, axis: "X"))
-        averageDifferenceList.append(printAverageDifference(for: yValues, axis: "Y"))
-        averageDifferenceList.append(printAverageDifference(for: zValues, axis: "Z"))
-        
-        if averageDifferenceList.contains(2) {
-            motionNotDetected = 2
-        }else{
-            motionNotDetected = 1
-        }
-    
+        motionStatus = (statusX == .movementDetected || statusY == .movementDetected || statusZ == .movementDetected) ? .movementDetected : .noMovement
     }
 
-    func printAverageDifference(for values: [Double], axis: String) -> Int{
-        guard let firstValue = values.first else { return -1}
+    func printAverageDifference(for values: [Double], axis: String) -> MotionDetectionStatus {
+        guard let firstValue = values.first else { return .undetermined }
         
-        // Liste für die Speicherung der absoluten Differenzen
         var differences: [Double] = []
-
-        // Starte die Schleife beim zweiten Wert (index 1)
+        
         for value in values.dropFirst() {
             let difference = abs(firstValue - value)
             differences.append(difference)
         }
         
-        // Summiere alle Differenzen
         let sumOfDifferences = differences.reduce(0.0, +)
-
-        // Anzahl der Differenzen
         let numberOfDifferences = Double(differences.count)
-
-        // Berechne den Durchschnitt der Differenzen
-        // Prüfe, ob die Anzahl der Differenzen größer als 0 ist, um Division durch Null zu vermeiden
         let averageDifference = numberOfDifferences > 0 ? sumOfDifferences / numberOfDifferences : 0.0
         
-        print("Durchschnittliche absolute Differenz für Achse \(axis): \(String(format: "%.4f", averageDifference))")
+        print("Durchschnittliche absolute Differenz für Achse %{public}@ : %{public}.4f", axis, averageDifference)
         
-        if averageDifference < 0.1 {
-            return 1
-        }else{
-            return 2
-        }
-        
+        return averageDifference < movementThreshold ? .noMovement : .movementDetected      
     }
 
-    
 }

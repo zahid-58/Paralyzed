@@ -11,7 +11,6 @@ struct ImpactNotificationView: View {
     @State private var animate = false
     @Environment(\.presentationMode) var presentationMode
     @Binding var showImpactNotificationView: Bool
-    //@ObservedObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     
         
@@ -51,16 +50,6 @@ struct ImpactNotificationView: View {
                         }
                     }
                     .padding(.bottom, 10)
-                
-//                NavigationLink(destination: StartStopView()) {
-//                    Text("Done")
-//                        .foregroundColor(.white)
-//                        .padding()
-//                        //.background(Color.blue)
-//                        .cornerRadius(10)
-//                        
-//                }
-//                .padding(10)
                 
                 Button("Done") {
                                     presentationMode.wrappedValue.dismiss()
