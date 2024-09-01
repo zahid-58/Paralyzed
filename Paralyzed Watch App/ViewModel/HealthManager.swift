@@ -27,7 +27,7 @@ class HealthManager: ObservableObject {
     @ObservedResults(HeartRateData.self) var heartRatedb
     
     static var scanid: UUID? = nil
-  
+    
     
     func requestAuthorization() {
         print("Requesting authorization...")
@@ -37,8 +37,7 @@ class HealthManager: ObservableObject {
             return
         }
         
-        guard let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate),
-              let restingHeartRateType = HKObjectType.quantityType(forIdentifier: .restingHeartRate) else {
+        guard let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate) else {
             print("Required health data types are not available.")
             return
         }
@@ -47,8 +46,9 @@ class HealthManager: ObservableObject {
         
         healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, error in
             if success {
-                self?.startStopTimer()
+                //self?.startStopTimer()
                 print("Authorization granted.")
+                self?.startHeartRateMonitoring()
             } else {
                 if let error = error {
                     print("Authorization failed with error: \(error.localizedDescription)")
@@ -103,6 +103,18 @@ class HealthManager: ObservableObject {
         
         healthStore.execute(query)
         heartRateQuery = query // Speichert die Referenz auf die Abfrage
+        
+        
+        // Timer einrichten, um die Überwachung zu stoppen
+         DispatchQueue.main.async {
+             self.timer = Timer.scheduledTimer(withTimeInterval: 25, repeats: false) { [weak self] _ in
+                 guard let self = self else { return }
+                 self.calculateAverageHeartRate()
+                 self.stopMonitoringHeartRate()
+             }
+         }
+        
+        
     }
     
     // Berechnen des Durchschnittswertes der Herzfrequenz
@@ -112,47 +124,8 @@ class HealthManager: ObservableObject {
         print("Average Heart Rate: \(averageHeartRate)")
     }
     
-    func startStopTimer(){
-        print("in startstoptimer func drin")
-        
-        // Starte den Timer, um alle Sekunden die neueste Herzfrequenz abzurufen
-        DispatchQueue.main.async {
-            //timer?.invalidate() // Stoppe den vorhandenen Timer, falls aktiv
-            self.timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { [weak self] _ in
-                self?.toggleMonitoring()
-                print("timer iterierung")
-            }
-        }
-    }
-    
-    
-    func toggleMonitoring(){
-        if isMonitoring {
-            calculateAverageHeartRate()
-            stopMonitoringInTimer()
-            print("Herzfrequenz stoppt")
-            
-            //heartRateData.removeAll()
-        } else {
-            startHeartRateMonitoring()
-            print("Herzfrequenz startet")
-        }
-        isMonitoring.toggle() // Ändere den Zustand der Überwachung
-    }
-
-    
-    // Stoppt die Herzfrequenzüberwachung
-    func stopMonitoringAndTimer() {
+    func stopMonitoringHeartRate() {
         print("Deactivating heart monitoring...")
-        stopMonitoringInTimer()
-        
-        timer?.invalidate()
-        timer = nil
-
-    }
-    
-    func stopMonitoringInTimer() {
-        
         if let query = heartRateQuery {
             healthStore.stop(query) // Beendet die Herzfrequenzabfrage
             // Setzen Sie isHeartRateMonitoringActive auf false, wenn die Überwachung endet
@@ -160,6 +133,8 @@ class HealthManager: ObservableObject {
             heartRateQuery = nil
             print("Is heart rate active? " , isHeartRateMonitoringActive)
         }
+        timer?.invalidate()
+        timer = nil
     }
     
 }

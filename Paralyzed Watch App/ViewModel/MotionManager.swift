@@ -8,8 +8,6 @@
 import CoreMotion
 import Foundation
 import RealmSwift
-import CoreML
-import AVFoundation
 
 class MotionManager: ObservableObject{
     let motionManager = CMMotionManager()
@@ -24,10 +22,6 @@ class MotionManager: ObservableObject{
     
     @Published var countdownIterate = 0
     
-    
-    var audioRecorder: AVAudioRecorder?
-    var recordingSession: AVAudioSession!
-    var timerTEST: Timer?
 
     // Funktion zum Starten der Bewegungsüberwachung
     func startMonitoring(for duration: TimeInterval) {
@@ -40,7 +34,7 @@ class MotionManager: ObservableObject{
         yValues.removeAll()
         zValues.removeAll()
 
-        motionManager.accelerometerUpdateInterval = 1.0 / 60.0 // Daten werden 2 Mal pro Sekunde aktualisiert
+        motionManager.accelerometerUpdateInterval = 1.0 / 2.0 // Daten werden 2 Mal pro Sekunde aktualisiert
         motionManager.startAccelerometerUpdates(to: .main) { [weak self] (data, error) in
             guard let data = data else {
                 print("Fehler beim Abrufen von Accelerometer-Daten: \(error?.localizedDescription ?? "Unbekannter Fehler")")
@@ -65,23 +59,6 @@ class MotionManager: ObservableObject{
             
             self?.$motiondb.append(motionRow)
             
-//            let motionRowNormal = MotionDataNormal2()
-//            
-//            motionRowNormal.x = data.acceleration.x
-//            motionRowNormal.y = data.acceleration.y
-//            motionRowNormal.z = data.acceleration.z
-//            motionRowNormal.label = "normal"
-//            
-//            self?.$motiondbforML.append(motionRowNormal)
-            
-//            let motionRowSchnell = MotionDataSchnell2()
-//            
-//            motionRowSchnell.x = data.acceleration.x
-//            motionRowSchnell.y = data.acceleration.y
-//            motionRowSchnell.z = data.acceleration.z
-//            motionRowSchnell.label = "schnell"
-//            
-//            self?.$motiondbforML2.append(motionRowSchnell)
 
         }
 
@@ -95,20 +72,20 @@ class MotionManager: ObservableObject{
                 print("Keine Bewegung erkannt.")
                 
                 // Alle relevanten Datensätze in der MotionData-Tabelle auf detected = true setzen
-//                if let realm = try? Realm() {
-//                    try? realm.write {
-//                        let motionResults = realm.objects(MotionData.self).filter("scanid == %@", HealthManager.scanid!)
-//                        motionResults.setValue(true, forKey: "detected")
-//                    }
-//                }
+                if let realm = try? Realm() {
+                    try? realm.write {
+                        let motionResults = realm.objects(MotionData.self).filter("scanid == %@", HealthManager.scanid!)
+                        motionResults.setValue(true, forKey: "detected")
+                    }
+                }
                 
                 // Alle relevanten Datensätze in der HeartRateData-Tabelle auf detected = true setzen
-//                if let realm = try? Realm() {
-//                    try? realm.write {
-//                        let heartRateResults = realm.objects(HeartRateData.self).filter("scanid == %@", HealthManager.scanid!)
-//                        heartRateResults.setValue(true, forKey: "detected")
-//                    }
-//                }
+                if let realm = try? Realm() {
+                    try? realm.write {
+                        let heartRateResults = realm.objects(HeartRateData.self).filter("scanid == %@", HealthManager.scanid!)
+                        heartRateResults.setValue(true, forKey: "detected")
+                    }
+                }
                 
             }
             
@@ -177,130 +154,6 @@ class MotionManager: ObservableObject{
         }
         
     }
-    
-//    // Funktion zur Vorhersage der Aktivität
-//    func predictActivity() {
-//        guard let xArray = createMLMultiArray(from: xValues),
-//              let yArray = createMLMultiArray(from: yValues),
-//              let zArray = createMLMultiArray(from: zValues),
-//              let stateIn = try? MLMultiArray(shape: [400], dataType: .double) else {
-//            print("Error creating MLMultiArray for inputs.")
-//            return
-//        }
-//
-//        do {
-//            // Erstelle das Input-Objekt für das Modell
-//            let config = MLModelConfiguration()
-//            let model = try MotionML(configuration: config)
-//            
-//            let input = MotionMLInput(x: xArray, y: yArray, z: zArray, stateIn: stateIn)
-//            
-//            // Führe die Vorhersage aus
-//            let prediction = try model.prediction(input: input)
-//            
-//            // Vorhersage ausgeben
-//            print("Predicted activity: \(prediction.label)")
-//            
-//        } catch {
-//            print("Error making prediction: \(error)")
-//        }
-//    }
-//    
-//    func createMLMultiArray(from array: [Double]) -> MLMultiArray? {
-//        // Limitiere das Array auf maximal 600 Einträge
-//        let limitedArray = array.count > 600 ? Array(array.prefix(600)) : array
-//        
-//        do {
-//            let mlArray = try MLMultiArray(shape: [NSNumber(value: limitedArray.count)], dataType: .double)
-//            for (index, value) in limitedArray.enumerated() {
-//                mlArray[index] = NSNumber(value: value)
-//            }
-//            return mlArray
-//        } catch {
-//            print("Error creating MLMultiArray: \(error)")
-//            return nil
-//        }
-//    }
-    
-    func recordAndUploadAudioToDiscord() {
-        // Einrichten der Audio-Session
-        recordingSession = AVAudioSession.sharedInstance()
-        
-        do {
-            try recordingSession.setCategory(.record, mode: .default)
-            try recordingSession.setActive(true, options: .notifyOthersOnDeactivation)
-        } catch {
-            print("Fehler beim Einrichten der Audio-Session: \(error.localizedDescription)")
-            return
-        }
-        
-        // Pfad zur temporären Audiodatei
-        let audioFileName = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempRecording.wav")
-        
-        // Aufnahme-Einstellungen
-        let settings: [String: Any] = [
-            AVFormatIDKey: Int(kAudioFormatLinearPCM), // WAV-Format
-            AVSampleRateKey: 16000, // 16 kHz
-            AVNumberOfChannelsKey: 1, // Single Channel
-            AVLinearPCMBitDepthKey: 16, // 16-Bit-Auflösung
-            AVLinearPCMIsBigEndianKey: false,
-            AVLinearPCMIsFloatKey: false
-        ]
-        
-        do {
-            // Audioaufnahme starten
-            audioRecorder = try AVAudioRecorder(url: audioFileName, settings: settings)
-            audioRecorder?.record(forDuration: 5) // Aufnahme für 5 Sekunden
 
-            // Timer zur Überwachung der 5-Sekunden-Aufnahme
-            timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
-                // Aufnahme stoppen und Datei hochladen
-                self.audioRecorder?.stop()
-                if let audioFileURL = self.audioRecorder?.url {
-                    do {
-                        let audioData = try Data(contentsOf: audioFileURL)
-                        self.uploadToDiscord(audioData: audioData, fileName: "recording.wav")
-                    } catch {
-                        print("Fehler beim Laden der Audiodatei: \(error.localizedDescription)")
-                    }
-                }
-            }
-        } catch {
-            print("Fehler beim Starten der Aufnahme: \(error.localizedDescription)")
-        }
-    }
-
-    // Funktion zum Hochladen der Audio-Daten über Discord Webhook
-    func uploadToDiscord(audioData: Data, fileName: String) {
-        let webhookURL = "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN"
-        guard let url = URL(string: webhookURL) else { return }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let boundary = "Boundary-\(UUID().uuidString)"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        var body = Data()
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: audio/wav\r\n\r\n".data(using: .utf8)!)
-        body.append(audioData)
-        body.append("\r\n".data(using: .utf8)!)
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        
-        request.httpBody = body
-        
-        let session = URLSession.shared
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Fehler beim Hochladen: \(error.localizedDescription)")
-                return
-            }
-            print("Audiodatei erfolgreich hochgeladen!")
-        }.resume()
-    }
-
-    
     
 }

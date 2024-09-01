@@ -22,6 +22,9 @@ class AudioManager: ObservableObject {
 
     /// An observer that receives results from a classify sound request.
     class ResultsObserver: NSObject, SNResultsObserving {
+        static var prediction = ""
+        static var counterPerCycle = 0
+        
         /// Notifies the observer when a request generates a prediction.
         func request(_ request: SNRequest, didProduce result: SNResult) {
             // Downcast the result to a classification result.
@@ -32,15 +35,6 @@ class AudioManager: ObservableObject {
             guard let classification = result.classifications.first else { return }
             
             
-            // Get the starting time.
-            let timeInSeconds = result.timeRange.start.seconds
-            
-            
-            // Convert the time to a human-readable string.
-            let formattedTime = String(format: "%.2f", timeInSeconds)
-            print("Analysis result for audio at time: \(formattedTime)")
-            
-            
             // Convert the confidence to a percentage string.
             let percent = classification.confidence * 100.0
             let percentString = String(format: "%.2f%%", percent)
@@ -48,6 +42,11 @@ class AudioManager: ObservableObject {
             
             // Print the classification's name (label) with its confidence.
             print("\(classification.identifier): \(percentString) confidence.\n")
+            
+            AudioManager.ResultsObserver.prediction = classification.identifier
+            
+            TimerManager.setPrediction(prediction: AudioManager.ResultsObserver.prediction)
+            
         }
         
         /// Notifies the observer when a request generates an error.
@@ -59,6 +58,11 @@ class AudioManager: ObservableObject {
         /// Notifies the observer when a request is complete.
         func requestDidComplete(_ request: SNRequest) {
             print("The request completed successfully!")
+            if AudioManager.ResultsObserver.prediction == "fast"{
+                AudioManager.ResultsObserver.counterPerCycle = 99
+            }else {
+                AudioManager.ResultsObserver.counterPerCycle += 1
+            }
         }
     }
     
@@ -70,7 +74,6 @@ class AudioManager: ObservableObject {
     
     
     func startscanning() {
-        
         // Einrichten der Audio-Session
         recordingSession = AVAudioSession.sharedInstance()
         
@@ -98,10 +101,10 @@ class AudioManager: ObservableObject {
         do {
             // Audioaufnahme starten
             audioRecorder = try AVAudioRecorder(url: audioFileName, settings: settings)
-            audioRecorder?.record(forDuration: 6) // Aufnahme für 5 Sekunden
+            audioRecorder?.record(forDuration: 5) // Aufnahme für 5 Sekunden
 
             // Timer zur Überwachung der 5-Sekunden-Aufnahme
-            timerTEST = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
+            timerTEST = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { _ in
                 // Aufnahme stoppen und Datei hochladen
                 self.audioRecorder?.stop()
                 let audioFileURL = self.audioRecorder!.url
@@ -124,6 +127,13 @@ class AudioManager: ObservableObject {
                     
                     audioFileAnalyzer?.analyze()
                     
+                    print(AudioManager.ResultsObserver.counterPerCycle)
+                    if (AudioManager.ResultsObserver.counterPerCycle < 3){
+                        self.startscanning()
+                    }else {
+                        AudioManager.ResultsObserver.counterPerCycle = 0
+                    }
+                    
                 } catch {
                     print("Fehler bei der Initialisierung des Modells oder der Klassifizierungsanfrage: \(error.localizedDescription)")
                 }
@@ -133,8 +143,6 @@ class AudioManager: ObservableObject {
         } catch {
             print("Fehler beim Starten der Aufnahme: \(error.localizedDescription)")
         }
-
-
         
     }
     
