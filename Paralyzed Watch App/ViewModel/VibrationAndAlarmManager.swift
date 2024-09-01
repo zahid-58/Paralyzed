@@ -21,65 +21,82 @@ class VibrationAndAlarmManager: ObservableObject {
         doneButtonClicked = false
         self.startTime = Date()
         
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
-                guard let self = self else { return }
-                
-                let currentTime = Date()
-                guard let startTime = self.startTime else { return }
-                let elapsedTime = currentTime.timeIntervalSince(startTime)
-                
-                if elapsedTime >= 5 * 60 {
-                    print("5 Minuten sind um, Timer wird beendet")
-                    self.timer?.invalidate()
-                    self.timer = nil
-                    return
-                }
+        // Starte den Timer auf dem Hauptthread
+        self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            let currentTime = Date()
+            guard let startTime = self.startTime else { return }
+            let elapsedTime = currentTime.timeIntervalSince(startTime)
+            
+            if elapsedTime >= 5 * 60 {
+                print("5 Minuten sind um, Timer wird beendet")
+                self.stopTimer()
+                return
+            }
 
-                if self.doneButtonClicked {
-                    print("done wurde geklickt")
-                    self.timer?.invalidate()
-                    self.timer = nil
-                    self.doneButtonClicked = false
-                } else {
-                    print("done wurde NICHT geklickt")
-                    switch type {
-                    case .vibration:
-                        self.activateVibration()
-                    case .alarm:
+            if self.doneButtonClicked {
+                print("done wurde geklickt")
+                self.stopTimer()
+            } else {
+                print("done wurde NICHT geklickt")
+                switch type {
+                case .vibration:
+                    self.activateVibration()
+                case .alarm:
+                    self.stopAllAudioSessions()
+                    self.activateAlarm()
+                case .both:
+                    self.activateVibration()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.stopAllAudioSessions()
                         self.activateAlarm()
-                    case .both:
-                        self.activateVibration()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.activateAlarm()
-                        }
                     }
                 }
             }
         }
+        
+        // Sicherstellen, dass der Timer im RunLoop läuft
+        RunLoop.current.add(self.timer!, forMode: .common)
     }
 
     func activateVibration() {
         WKInterfaceDevice.current().play(.failure)
-        print("Vibration activated")
+        print("Vibration aktiviert")
     }
 
     func activateAlarm() {
         guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
-            print("Audio file not found")
+            print("Audio-Datei nicht gefunden")
             return
         }
         
         do {
+            // Neue Audiositzung konfigurieren
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            // Audio-Player vorbereiten und abspielen
             self.audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            self.audioPlayer?.prepareToPlay()
             self.audioPlayer?.play()
         } catch {
-            print("Failed to play audio: \(error)")
+            print("Fehler beim Abspielen der Audio-Datei: \(error)")
         }
         
-        print("Alarm Sound Playing")
+        print("Alarm wird abgespielt")
     }
-    
+
+    // Funktion zum Beenden aller aktiven Audiositzungen
+    func stopAllAudioSessions() {
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            print("Alle Audiositzungen wurden deaktiviert.")
+        } catch {
+            print("Fehler beim Deaktivieren der Audiositzungen: \(error)")
+        }
+    }
+
     func stopTimer() {
         self.timer?.invalidate()
         self.timer = nil

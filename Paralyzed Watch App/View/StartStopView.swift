@@ -46,9 +46,12 @@ struct StartStopView: View {
                 } else {
                     Button("Tap to deactivate") {
                         isActivated = false
-                        healthManager.stopMonitoringAndTimer()
+                        healthManager.stopMonitoringHeartRate()
                         motionManager.stopMonitoring()
                         motionActive = false
+                        AudioManager.ResultsObserver.counterPerCycle = 99
+                        audioActive = false
+                        
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
