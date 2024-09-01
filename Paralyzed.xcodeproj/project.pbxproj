@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3102AEF52B8179D200F716AF /* SessionPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3102AEF42B8179D200F716AF /* SessionPagingView.swift */; };
 		31255F1F2BFFB50200DC2C9E /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31255F1E2BFFB50200DC2C9E /* alarm.mp3 */; };
-		313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313D26432C77EE3E00E65D93 /* WelcomeView.swift */; };
 		314175722C7CA947004566F8 /* WelcomeView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314175712C7CA947004566F8 /* WelcomeView3.swift */; };
 		314175742C7CBB04004566F8 /* WelcomeView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314175732C7CBB04004566F8 /* WelcomeView4.swift */; };
 		314779CA2B7D0FA900C8EADC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314779C92B7D0FA900C8EADC /* SettingsView.swift */; };
@@ -26,7 +25,6 @@
 		31CC81832BAC9C0700C99974 /* modern_alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31CC81822BAC9C0700C99974 /* modern_alarm.mp3 */; };
 		31CC81852BAC9C1E00C99974 /* VibrationAndAlarmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81842BAC9C1E00C99974 /* VibrationAndAlarmManager.swift */; };
 		31CC81872BAC9C6C00C99974 /* ImpactNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */; };
-		31D65B5B2C72313800115E9E /* MotionDataRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D65B5A2C72313800115E9E /* MotionDataRecorder.swift */; };
 		31D96C0B2B66F9DD00A1B16A /* Paralyzed Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 31D96C0A2B66F9DD00A1B16A /* Paralyzed Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		31D96C102B66F9DD00A1B16A /* ParalyzedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */; };
 		31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D96C112B66F9DD00A1B16A /* StartStopView.swift */; };
@@ -75,7 +73,6 @@
 /* Begin PBXFileReference section */
 		3102AEF42B8179D200F716AF /* SessionPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPagingView.swift; sourceTree = "<group>"; };
 		31255F1E2BFFB50200DC2C9E /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = SOURCE_ROOT; };
-		313D26432C77EE3E00E65D93 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		314175712C7CA947004566F8 /* WelcomeView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView3.swift; sourceTree = "<group>"; };
 		314175732C7CBB04004566F8 /* WelcomeView4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView4.swift; sourceTree = "<group>"; };
 		314779C92B7D0FA900C8EADC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -92,7 +89,6 @@
 		31CC81862BAC9C6C00C99974 /* ImpactNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImpactNotificationView.swift; sourceTree = "<group>"; };
 		31D484E32B7BE8EE0068B3C4 /* Paralyzed Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Paralyzed Watch App.entitlements"; sourceTree = "<group>"; };
 		31D484E42B7C27CC0068B3C4 /* Paralyzed-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Paralyzed-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
-		31D65B5A2C72313800115E9E /* MotionDataRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDataRecorder.swift; sourceTree = "<group>"; };
 		31D96C042B66F9DD00A1B16A /* Paralyzed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paralyzed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D96C0A2B66F9DD00A1B16A /* Paralyzed Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Paralyzed Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D96C0F2B66F9DD00A1B16A /* ParalyzedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParalyzedApp.swift; sourceTree = "<group>"; };
@@ -119,7 +115,6 @@
 		313D26422C77EDDE00E65D93 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
-				313D26432C77EE3E00E65D93 /* WelcomeView.swift */,
 				318C3B6A2C7BEB7200B864A2 /* WelcomeView1.swift */,
 				318C3B6C2C7BEB8000B864A2 /* WelcomeView2.swift */,
 				314175712C7CA947004566F8 /* WelcomeView3.swift */,
@@ -135,7 +130,6 @@
 				31536F392B84065C00176F6F /* HealthManager.swift */,
 				31FD78982C1B34D8008C207B /* MotionManager.swift */,
 				31B7E9982C6A83E1008AEB4E /* Config.swift */,
-				31D65B5A2C72313800115E9E /* MotionDataRecorder.swift */,
 				31E24A8A2C7F9A5500A52D46 /* AudioManager.swift */,
 				317A26D52C84066200327D4F /* TimerManager.swift */,
 			);
@@ -319,7 +313,6 @@
 				314175722C7CA947004566F8 /* WelcomeView3.swift in Sources */,
 				31BB51272C7A85C600741326 /* HeartRateData.swift in Sources */,
 				314175742C7CBB04004566F8 /* WelcomeView4.swift in Sources */,
-				31D65B5B2C72313800115E9E /* MotionDataRecorder.swift in Sources */,
 				31D96C122B66F9DD00A1B16A /* StartStopView.swift in Sources */,
 				31E24A892C7F99DA00A52D46 /* AudioML_v2.mlmodel in Sources */,
 				31B7E9992C6A83E1008AEB4E /* Config.swift in Sources */,
@@ -328,7 +321,6 @@
 				318C3B692C7B934200B864A2 /* MotionData.swift in Sources */,
 				317A26D62C84066200327D4F /* TimerManager.swift in Sources */,
 				31FD78992C1B34D8008C207B /* MotionManager.swift in Sources */,
-				313D26442C77EE3E00E65D93 /* WelcomeView.swift in Sources */,
 				318C3B6B2C7BEB7200B864A2 /* WelcomeView1.swift in Sources */,
 				31536F3A2B84065C00176F6F /* HealthManager.swift in Sources */,
 				31D96C102B66F9DD00A1B16A /* ParalyzedApp.swift in Sources */,

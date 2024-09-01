@@ -19,7 +19,6 @@ struct ImpactNotificationView: View {
         NavigationView {
             VStack {
                 Text("Paralysis detected!")
-                   // .font(.system(size: 21))
                     .font(.headline)
                     .padding(10)
                 Image(systemName: "exclamationmark.triangle")
@@ -27,7 +26,6 @@ struct ImpactNotificationView: View {
                     .foregroundColor(.red)
                     .scaleEffect(animate ? 1.2 : 1.0) // Skaliere das Symbol größer und kleiner, um einen Bounce-Effekt zu simulieren
                     .padding(.bottom, 10)
-                    //.symbolEffect(.bounce,options: .speed(0.1) .repeating, value: animate) <- hat nicht funktioniert, da veraltet
                 
                     // Beim Erscheinen des ImpactNotificationView, wird hier je nach Bedingung entschieden, ob Vibration, Alarm oder beides aktiviert werden im Falle einer Auslösung
                     .onAppear{
@@ -58,7 +56,6 @@ struct ImpactNotificationView: View {
                                 }
                                 .foregroundColor(.white)
                                 .padding()
-                                // .background(Color.blue) - Füge dies hinzu, wenn du einen blauen Hintergrund möchtest.
                                 .cornerRadius(10)
                                 .padding(10)
                                 

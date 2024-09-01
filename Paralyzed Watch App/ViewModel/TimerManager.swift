@@ -43,10 +43,7 @@ class TimerManager: ObservableObject {
                 self.audioManager.startScanning()
             }
         }
-        
     }
-    
-
 }
 
 extension Notification.Name {

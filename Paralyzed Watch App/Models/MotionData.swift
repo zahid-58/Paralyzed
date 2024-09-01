@@ -20,7 +20,5 @@ class MotionData: Object, Identifiable {
     
     override class func primaryKey() -> String? {
         "id"
-    }
-    
-    
+    }  
 }

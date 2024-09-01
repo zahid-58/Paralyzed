@@ -14,7 +14,6 @@ struct StartStopView: View {
     @StateObject private var healthManager = HealthManager()
     @StateObject private var motionManager = MotionManager()
     @StateObject private var audioManager = AudioManager()
-    @StateObject private var motionDataRecorder = MotionDataRecorder()
 
     @State private var isActivated: Bool = false
     @State private var showImpactNotificationView = false

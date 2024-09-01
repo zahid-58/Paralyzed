@@ -40,7 +40,6 @@ class HealthManager: ObservableObject {
         
         healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, error in
             if success {
-                //self?.startStopTimer()
                 print("Authorization granted.")
                 self?.startHeartRateMonitoring()
             } else {

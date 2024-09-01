@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     @State private var selectedHeartRate: Double = Config.loadHeartrateLimit()
-    @State private var confirmedHeartRate: Double = Config.loadHeartrateLimit() // Neue State-Variable
+    @State private var confirmedHeartRate: Double = Config.loadHeartrateLimit()
 
     var body: some View {
         NavigationView {
@@ -22,7 +22,7 @@ struct SettingsView: View {
                         }
                     }
                     .focusable(true)
-                    .frame(height: 50) // Angepasste Höhe für bessere Sichtbarkeit
+                    .frame(height: 50) 
                     .frame(width: 90)
                     .labelsHidden()
                     
