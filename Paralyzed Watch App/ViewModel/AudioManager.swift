@@ -5,20 +5,29 @@
 //  Created by Muhammed Zahid Fırat on 28.08.24.
 //
 
-import Foundation
 import AVFoundation
 import CoreML
 import SoundAnalysis
+
+extension Notification.Name {
+    static let predictionDidChange = Notification.Name("predictionDidChange")
+}
 
 class AudioManager: ObservableObject {
     var resultsObserver = ResultsObserver()
     var audioRecorder: AVAudioRecorder?
     var recordingSession: AVAudioSession!
-    var timerTEST: Timer?
+    var timer: Timer?
 
     /// An observer that receives results from a classify sound request.
     class ResultsObserver: NSObject, SNResultsObserving {
-        static var prediction = ""
+        static var prediction = "" {
+            didSet {
+                // Sende eine Benachrichtigung, wenn die statische Variable geändert wird
+                NotificationCenter.default.post(name: .predictionDidChange, object: nil)
+            }
+        }
+
         static var counterPerCycle = 0
         
         func request(_ request: SNRequest, didProduce result: SNResult) {
@@ -31,7 +40,6 @@ class AudioManager: ObservableObject {
             print("\(classification.identifier): \(percentString) confidence.\n")
             
             Self.prediction = classification.identifier
-            TimerManager.setPrediction(prediction: Self.prediction)
         }
         
         func request(_ request: SNRequest, didFailWithError error: Error) {
@@ -66,11 +74,11 @@ class AudioManager: ObservableObject {
             audioRecorder = try AVAudioRecorder(url: audioFileName, settings: settings)
             audioRecorder?.record(forDuration: 5)
             
-            timerTEST = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [weak self] _ in
+            timer = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [weak self] _ in
                 self?.handleRecordingCompletion()
             }
         } catch {
-            print("Fehler beim Starten der Aufnahme: \(error.localizedDescription)")
+            handleError(error)
         }
     }
     
@@ -80,7 +88,7 @@ class AudioManager: ObservableObject {
             try recordingSession.setCategory(.record, mode: .default)
             try recordingSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
-            print("Fehler beim Einrichten der Audio-Session: \(error.localizedDescription)")
+            handleError(error)
         }
     }
 
@@ -105,9 +113,80 @@ class AudioManager: ObservableObject {
                 startScanning()
             } else {
                 ResultsObserver.counterPerCycle = 0
+                timer?.invalidate()
+                timer = nil
+                resetAudioSession() // Session zurücksetzen
+                // Lösche die temporäre Datei nach der Analyse
+                deleteTemporaryAudioFile(at: audioFileURL)
             }
+            
+
+            
         } catch {
-            print("Fehler bei der Initialisierung des Modells oder der Klassifizierungsanfrage: \(error.localizedDescription)")
+            handleError(error)
         }
     }
+    
+    private func handleError(_ error: Error) {
+        switch error {
+        case let error as AudioManagerError:
+            switch error {
+            case .audioSessionFailed(let message):
+                print("Audio Session Error: \(message)")
+                // Mögliche Maßnahme: Versuche, die Sitzung neu zu starten oder den Benutzer zu benachrichtigen
+            case .recorderFailed(let message):
+                print("Recorder Error: \(message)")
+                // Mögliche Maßnahme: Versuche, die Aufnahme erneut zu starten
+            case .fileNotFound(let message):
+                print("File Error: \(message)")
+                // Mögliche Maßnahme: Überprüfe, ob die Datei existiert und zugänglich ist
+            case .analyzerCreationFailed:
+                print("Analyzer Error: Failed to create audio file analyzer.")
+                // Mögliche Maßnahme: App-Status aktualisieren oder erneut versuchen
+            case .classificationFailed(let message):
+                print("Classification Error: \(message)")
+                // Mögliche Maßnahme: Überprüfe das Modell oder starte die Analyse erneut
+            }
+
+        default:
+            print("Unknown Error: \(error.localizedDescription)")
+            // Allgemeine Maßnahme: Zeige eine allgemeine Fehlermeldung an oder logge den Fehler
+        }
+    }
+    
+    /// Löscht die temporäre Audiodatei nach Abschluss der Analyse
+    private func deleteTemporaryAudioFile(at url: URL) {
+        do {
+            try FileManager.default.removeItem(at: url)
+            print("Temporäre Audiodatei erfolgreich gelöscht: \(url.lastPathComponent)")
+        } catch {
+            print("Fehler beim Löschen der temporären Audiodatei: \(error.localizedDescription)")
+        }
+    }
+    
+    func resetAudioSession() {
+        do {
+            // Deaktiviere die aktuelle Audio-Session
+            try recordingSession.setActive(false, options: .notifyOthersOnDeactivation)
+            print("Audio-Session wurde deaktiviert.")
+        } catch {
+            print("Fehler beim Deaktivieren der Audio-Session: \(error.localizedDescription)")
+        }
+        
+        // Lösche die Audio-Session
+        recordingSession = nil
+        
+        // Erstelle die Audio-Session neu
+        setupAudioSession()
+    }
+    
+    
+}
+
+enum AudioManagerError: Error {
+    case audioSessionFailed(String)
+    case recorderFailed(String)
+    case fileNotFound(String)
+    case analyzerCreationFailed
+    case classificationFailed(String)
 }

@@ -44,7 +44,6 @@ struct WelcomeView4: View {
                             Text("Los")
                         }
                     })
-//                    .buttonStyle(PlainButtonStyle())
                     .foregroundColor(.black)
                     .background(Capsule().fill(Color.green))
                     .fontWeight(.bold)

@@ -5,14 +5,14 @@
 //  Created by Muhammed Zahid Fırat on 19.02.24.
 //
 
-import Foundation
+
 import HealthKit
-import CoreMotion
 import RealmSwift
+import os
 
 
 class HealthManager: ObservableObject {
-    private var healthStore = HKHealthStore()
+    private lazy var healthStore = HKHealthStore()
     private var heartRateQuery: HKQuery? // Speichert die aktive Herzfrequenzabfrage
     private var timer: Timer? // Timer für regelmäßige Herzfrequenzupdates
     @Published var isMonitoring: Bool = false // Zustand der Überwachung
@@ -25,7 +25,7 @@ class HealthManager: ObservableObject {
     
     
     func requestAuthorization() {
-        print("Requesting authorization...")
+        print("Berechtigung wird angefragt...")
         guard HKHealthStore.isHealthDataAvailable() else {
             print("Health data is not available on this device.")
             return
@@ -66,8 +66,6 @@ class HealthManager: ObservableObject {
         
         HealthManager.scanid = UUID()
         
-        
-        
         // Leerer Block für den initialen Datenabruf
         let query = HKAnchoredObjectQuery(type: heartRateType, predicate: nil, anchor: nil, limit: HKObjectQueryNoLimit) { _, _, _, _, _ in
             // Keine Aktion benötigt beim initialen Abruf
@@ -75,20 +73,22 @@ class HealthManager: ObservableObject {
         
         // UpdateHandler wartet automatisch auf neue Ergebnisse und gibt sie dann während dem Scan aus
         query.updateHandler = { [weak self] _, sampleObjects, _, _, _ in
+            guard let self = self else { return } // Schwache Referenz entpacken
             guard let samples = sampleObjects as? [HKQuantitySample] else { return }
-            let latestSample = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min"))
+            let latestSample = samples.last?.quantity.doubleValue(for: HKUnit(from: "count/min")) ?? 0.0
+            os_log("No heart rate data found. Using default value 0.0", log: OSLog.default, type: .info)
             DispatchQueue.main.async {
-                self?.heartRate = latestSample ?? 0
-                self?.heartRateData.append(latestSample ?? 0)
-                print("Heart Rate: \(self?.heartRate ?? 0)")
+                self.heartRate = latestSample
+                self.heartRateData.append(latestSample)
+                print("Heart Rate: \(self.heartRate)")
                 
                 let heartRateRow = HeartRateData()
-                heartRateRow.heartrate = latestSample ?? 0
+                heartRateRow.heartrate = latestSample
                 heartRateRow.timestamp = Date()
                 heartRateRow.scanid = HealthManager.scanid
                 heartRateRow.detected = false
                 
-                self?.$heartRatedb.append(heartRateRow)
+                self.$heartRatedb.append(heartRateRow)
                 
             }
         }
@@ -100,20 +100,18 @@ class HealthManager: ObservableObject {
         
         // Timer einrichten, um die Überwachung zu stoppen
          DispatchQueue.main.async {
-             self.timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { [weak self] _ in
+             self.timer = Timer.scheduledTimer(withTimeInterval: 23, repeats: false) { [weak self] _ in
                  guard let self = self else { return }
                  self.calculateAverageHeartRate()
                  self.stopMonitoringHeartRate()
              }
          }
-        
-        
     }
     
     // Berechnen des Durchschnittswertes der Herzfrequenz
     func calculateAverageHeartRate() {
         let sum = heartRateData.reduce(0, +)
-        averageHeartRate = sum / Double(heartRateData.count)
+        averageHeartRate = heartRateData.isEmpty ? 0.0 : sum / Double(heartRateData.count)
         print("Average Heart Rate: \(averageHeartRate)")
     }
     

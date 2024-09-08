@@ -6,7 +6,6 @@
 //
 
 import CoreMotion
-import Foundation
 import RealmSwift
 
 enum MotionDetectionStatus {
@@ -16,7 +15,7 @@ enum MotionDetectionStatus {
 }
 
 class MotionManager: ObservableObject{
-    let motionManager = CMMotionManager()
+    var motionManager = CMMotionManager()
     var timer: Timer?
     @Published var motionStatus: MotionDetectionStatus = .undetermined
     var xValues: [Double] = []
@@ -25,10 +24,7 @@ class MotionManager: ObservableObject{
     
     @ObservedResults(MotionData.self) var motiondb
     
-    
-    @Published var countdownIterate = 0
-    
-    let movementThreshold = 0.1
+    let movementThreshold = 0.09 // zum Testen, davor stand 0.1
     
 
     // Funktion zum Starten der Bewegungsüberwachung
@@ -96,12 +92,10 @@ class MotionManager: ObservableObject{
                     }
                 }
             case .movementDetected:
-                print("Bewegung erkannt.")
+                print("Bewegung erkannt, es geht weiter")
             case .undetermined:
                 print("Bewegungsstatus unbestimmt.")
             }
-            
-            countdownIterate = countdownIterate + 1
             
         }
     }
@@ -113,7 +107,7 @@ class MotionManager: ObservableObject{
         timer = nil
         motionStatus = .undetermined
         
-        print("MOTION STOPPED")
+        print("Motion stopped")
     }
 
     func calculateAndPrintAverageDifferences() {

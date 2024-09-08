@@ -11,13 +11,8 @@ class TimerManager: ObservableObject {
     
     private var healthManager: HealthManager
     private var audioManager: AudioManager
-    
-    static var prediction = "" {
-        didSet {
-            // Sende eine Benachrichtigung, wenn die statische Variable geändert wird
-            NotificationCenter.default.post(name: .predictionDidChange, object: nil)
-        }
-    }
+    static var tabbedToDisable = false
+    static var isRunning = false
     
     init(healthManager: HealthManager, audioManager: AudioManager) {
         self.healthManager = healthManager
@@ -26,26 +21,24 @@ class TimerManager: ObservableObject {
     
     
     func waitForTenSeconds(completion: @escaping () -> Void) {
+        Self.isRunning = true
         DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+            Self.isRunning = false
             completion()
         }
-    }
-    
-    static func setPrediction(prediction: String) {
-        TimerManager.prediction = prediction
     }
     
     func startCycle() {
         
         waitForTenSeconds {
-            self.healthManager.requestAuthorization()
-            DispatchQueue.main.async() {
-                self.audioManager.startScanning()
+            if Self.tabbedToDisable == false{
+                self.healthManager.requestAuthorization()
+                DispatchQueue.main.async() {
+                    self.audioManager.startScanning()
+                }
+            }else {
+                Self.tabbedToDisable = false
             }
         }
     }
-}
-
-extension Notification.Name {
-    static let predictionDidChange = Notification.Name("predictionDidChange")
 }

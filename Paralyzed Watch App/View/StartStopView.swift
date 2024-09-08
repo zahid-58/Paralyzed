@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
-import RealmSwift
-
 
 struct StartStopView: View {
     @StateObject private var healthManager = HealthManager()
@@ -29,15 +26,22 @@ struct StartStopView: View {
             VStack {
                 if !isActivated {
                     Button("Tap to activate") {
-                        isActivated = true
 
+                        isActivated = true
+                        
                         //uploadRealmToDiscord()
                         //deleteRealmDatabase()
-                        //listFilesInDocumentsDirectory()
+                        if TimerManager.isRunning{
+                            print("TimerManager Cycle besteht noch, und wird weiter verwendet")
+                            TimerManager.tabbedToDisable = false
+                            
+                        }else{
+                            print("Button startet TimerManager Cycle")
+                            timerManager.startCycle()
+                        }
 
-                        timerManager.startCycle()
                         audioActive = true
-                        
+
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.green)
@@ -46,6 +50,10 @@ struct StartStopView: View {
                     Text("Status:") + Text(" is deactivated").foregroundColor(.red)
                 } else {
                     Button("Tap to deactivate") {
+                        if TimerManager.isRunning{
+                            TimerManager.tabbedToDisable = true
+                        }
+                        
                         isActivated = false
                         healthManager.stopMonitoringHeartRate()
                         motionManager.stopMonitoring()
@@ -80,11 +88,15 @@ struct StartStopView: View {
                     Text("AI Audio Detection...")
                         .onReceive(NotificationCenter.default.publisher(for: .predictionDidChange)) { _ in
                         
-                            if TimerManager.prediction == "fast" {
+                            if AudioManager.ResultsObserver.prediction == "fast" {
                                 audioActive = false
                                 healthManager.stopMonitoringHeartRate()
-                                motionManager.startMonitoring(for: 10)
-                                motionActive = true
+                                
+                                if isActivated{
+                                    motionManager.startMonitoring(for: 10)
+                                    motionActive = true
+                                }
+
                             }
                         }
                 }
@@ -103,7 +115,7 @@ struct StartStopView: View {
                             }
                             
                             if newValue == .movementDetected {
-                                print("Bewegung erkannt, es geht weiter")
+                                audioActive = true
                                 timerManager.startCycle()
                                 motionActive = false
                             }
@@ -197,7 +209,7 @@ struct StartStopView: View {
 //         let fileManager = FileManager.default
 //         
 //         // Pfad zum Documents-Verzeichnis abrufen
-//         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
 //         
 //         do {
 //             // Inhalte des Documents-Verzeichnisses auflisten

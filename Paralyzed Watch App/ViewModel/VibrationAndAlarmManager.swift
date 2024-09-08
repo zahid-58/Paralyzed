@@ -5,7 +5,6 @@
 //  Created by Muhammed Zahid Fırat on 25.02.24.
 //
 
-import Foundation
 import AVFoundation
 import WatchKit
 
@@ -36,10 +35,10 @@ class VibrationAndAlarmManager: ObservableObject {
             }
 
             if self.doneButtonClicked {
-                print("done wurde geklickt")
+                print("Done Button wurde geklickt")
                 self.stopTimer()
             } else {
-                print("done wurde NICHT geklickt")
+                print("Done Button wurde nicht geklickt, iteriere weiter...")
                 switch type {
                 case .vibration:
                     self.activateVibration()

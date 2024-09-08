@@ -101,6 +101,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		11A6821BFFD313F427119A48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		31D96C072B66F9DD00A1B16A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -210,6 +217,7 @@
 			buildPhases = (
 				31D96C022B66F9DD00A1B16A /* Resources */,
 				31D96C1D2B66F9DE00A1B16A /* Embed Watch Content */,
+				11A6821BFFD313F427119A48 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -469,9 +477,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Paralyzed-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Paralyzed;
-				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Please allow access to enjoy all the features of our app";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy all the features of our app";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to enjoy all the features of our app";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Bitte erlauben Sie den Zugriff, um alle Funktionen unserer App nutzen zu können.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Diese App benötigt Zugriff auf Ihre Gesundheitsdaten, um eine Workout-Session durchzuführen, damit die App im Vordergrund läuft.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Bitte erlauben Sie den Zugriff, um alle Funktionen unserer App nutzen zu können.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Diese App benötigt Zugriff auf Bewegungsdaten, um festzustellen, ob Sie sich bewegen oder nicht.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -505,9 +513,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Paralyzed-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Paralyzed;
-				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Please allow access to enjoy all the features of our app";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy all the features of our app";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please allow access to enjoy all the features of our app";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "Bitte erlauben Sie den Zugriff, um alle Funktionen unserer App nutzen zu können.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Diese App benötigt Zugriff auf Ihre Gesundheitsdaten, um eine Workout-Session durchzuführen, damit die App im Vordergrund läuft.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Bitte erlauben Sie den Zugriff, um alle Funktionen unserer App nutzen zu können.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Diese App benötigt Zugriff auf Bewegungsdaten, um festzustellen, ob Sie sich bewegen oder nicht.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
