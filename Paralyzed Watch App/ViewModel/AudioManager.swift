@@ -18,6 +18,20 @@ class AudioManager: ObservableObject {
     var audioRecorder: AVAudioRecorder?
     var recordingSession: AVAudioSession!
     var timer: Timer?
+    
+    // Einmalige Initialisierung des Modells
+    let soundClassifier: AudioML_v2
+
+    init() {
+        // Initialisiere das Modell einmal in der Initialisierungsfunktion
+        do {
+            let configuration = MLModelConfiguration()
+            soundClassifier = try AudioML_v2(configuration: configuration)
+        } catch {
+            // Hier ist eine alternative Fehlerbehandlung erforderlich
+            fatalError("Fehler beim Initialisieren des Modells: \(error.localizedDescription)")
+        }
+    }
 
     /// An observer that receives results from a classify sound request.
     class ResultsObserver: NSObject, SNResultsObserving {
@@ -101,7 +115,6 @@ class AudioManager: ObservableObject {
         guard let audioFileURL = audioRecorder?.url else { return }
         
         do {
-            let soundClassifier = try AudioML_v2(configuration: MLModelConfiguration())
             let classifySoundRequest = try SNClassifySoundRequest(mlModel: soundClassifier.model)
             guard let audioFileAnalyzer = createAnalyzer(audioFileURL: audioFileURL) else { return }
             

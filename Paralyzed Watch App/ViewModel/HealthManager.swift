@@ -60,6 +60,7 @@ class HealthManager: ObservableObject {
         // Daten zurücksetzen
         self.heartRate = 0
         self.heartRateData.removeAll()
+        self.averageHeartRate = 9999
         
         // Setzen Sie isHeartRateMonitoringActive auf true, wenn die Überwachung startet
         self.isHeartRateMonitoringActive = true

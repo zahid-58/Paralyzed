@@ -71,6 +71,11 @@ struct StartStopView: View {
                 
                 Text("Herzfrequenz: \(healthManager.heartRate, specifier: "%.0f") BPM")
                     .onChange(of: healthManager.averageHeartRate) { newValue in
+                        if newValue == 9999{
+                            return
+                        }
+                        
+                        
                         if newValue >= Config.loadHeartrateLimit() {
                             healthManager.isMonitoring = false
                             audioActive = false
