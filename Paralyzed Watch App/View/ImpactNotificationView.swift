@@ -13,7 +13,7 @@ struct ImpactNotificationView: View {
     @Binding var showImpactNotificationView: Bool
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     
-        
+    
     
     var body: some View {
         NavigationView {
@@ -27,7 +27,7 @@ struct ImpactNotificationView: View {
                     .scaleEffect(animate ? 1.2 : 1.0) // Skaliere das Symbol größer und kleiner, um einen Bounce-Effekt zu simulieren
                     .padding(.bottom, 10)
                 
-                    // Beim Erscheinen des ImpactNotificationView, wird hier je nach Bedingung entschieden, ob Vibration, Alarm oder beides aktiviert werden im Falle einer Auslösung
+                //  Beim Erscheinen des ImpactNotificationView, wird hier je nach Bedingung entschieden, ob Vibration, Alarm oder beides aktiviert werden im Falle einer Auslösung
                     .onAppear{
                         
                         if vibrationAndAlarmManager.activeToggle == 1{
@@ -50,15 +50,15 @@ struct ImpactNotificationView: View {
                     .padding(.bottom, 10)
                 
                 Button("Done") {
-                                    presentationMode.wrappedValue.dismiss()
-                                    vibrationAndAlarmManager.doneButtonClicked = true
-                                    
-                                }
-                                .foregroundColor(.white)
-                                .padding()
-                                .cornerRadius(10)
-                                .padding(10)
-                                
+                    presentationMode.wrappedValue.dismiss()
+                    vibrationAndAlarmManager.doneButtonClicked = true
+                    
+                }
+                .foregroundColor(.white)
+                .padding()
+                .cornerRadius(10)
+                .padding(10)
+                
             }
             .navigationBarHidden(true) // Versteckt die komplette NavigationBar, einschließlich des "X" Buttons
         }

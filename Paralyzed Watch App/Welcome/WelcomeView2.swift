@@ -40,10 +40,7 @@ struct WelcomeView2: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     .navigationBarBackButtonHidden(true)
-                    
-                    
                 }
-//                .padding(.all)
             }
         }
     }

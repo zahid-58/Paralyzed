@@ -15,7 +15,7 @@ class VibrationAndAlarmManager: ObservableObject {
     var startTime: Date?
     
     private var timer: Timer?
-
+    
     func startAction(type: ActionType) {
         doneButtonClicked = false
         self.startTime = Date()
@@ -33,7 +33,7 @@ class VibrationAndAlarmManager: ObservableObject {
                 self.stopTimer()
                 return
             }
-
+            
             if self.doneButtonClicked {
                 print("Done Button wurde geklickt")
                 self.stopTimer()
@@ -58,12 +58,12 @@ class VibrationAndAlarmManager: ObservableObject {
         // Sicherstellen, dass der Timer im RunLoop läuft
         RunLoop.current.add(self.timer!, forMode: .common)
     }
-
+    
     func activateVibration() {
         WKInterfaceDevice.current().play(.failure)
         print("Vibration aktiviert")
     }
-
+    
     func activateAlarm() {
         guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
             print("Audio-Datei nicht gefunden")
@@ -74,7 +74,7 @@ class VibrationAndAlarmManager: ObservableObject {
             // Neue Audiositzung konfigurieren
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
             try AVAudioSession.sharedInstance().setActive(true)
-
+            
             // Audio-Player vorbereiten und abspielen
             self.audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
             self.audioPlayer?.prepareToPlay()
@@ -85,7 +85,7 @@ class VibrationAndAlarmManager: ObservableObject {
         
         print("Alarm wird abgespielt")
     }
-
+    
     // Funktion zum Beenden aller aktiven Audiositzungen
     func stopAllAudioSessions() {
         do {
@@ -95,7 +95,7 @@ class VibrationAndAlarmManager: ObservableObject {
             print("Fehler beim Deaktivieren der Audiositzungen: \(error)")
         }
     }
-
+    
     func stopTimer() {
         self.timer?.invalidate()
         self.timer = nil

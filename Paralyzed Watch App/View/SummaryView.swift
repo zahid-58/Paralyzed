@@ -20,9 +20,9 @@ struct SummaryView: View {
                 .accentColor(.yellow)
                 
                 SummaryMetricView(
-                title: "Max. Heart Rate",
-                value: 170
-                    .formatted(.number.precision(.fractionLength(0))) + " bpm").accentColor(.red)
+                    title: "Max. Heart Rate",
+                    value: 170
+                        .formatted(.number.precision(.fractionLength(0))) + " bpm").accentColor(.red)
             }
             .scenePadding()
         }

@@ -22,7 +22,7 @@ class TimerManager: ObservableObject {
     
     func waitForTenSeconds(completion: @escaping () -> Void) {
         Self.isRunning = true
-        DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 20) {
             Self.isRunning = false
             completion()
         }

@@ -11,7 +11,7 @@ struct SettingsView: View {
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     @State private var selectedHeartRate: Double = Config.loadHeartrateLimit()
     @State private var confirmedHeartRate: Double = Config.loadHeartrateLimit()
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -29,7 +29,7 @@ struct SettingsView: View {
                     Button(action: {
                         Config.saveHeartrateLimit(limit: selectedHeartRate)
                         confirmedHeartRate = selectedHeartRate // Aktualisiere die bestätigte Herzfrequenz
-
+                        
                         // Haptisches Feedback geben
                         WKInterfaceDevice.current().play(.success)
                     }) {
@@ -41,7 +41,7 @@ struct SettingsView: View {
                     .fontWeight(.bold)
                     .frame(width: 90)
                 }
-
+                
                 HStack {
                     Text("Gewählte Herzfrequenz: \(Int(confirmedHeartRate)) BPM") // Zeigt die bestätigte Herzfrequenz an
                         .font(.headline)
@@ -50,9 +50,9 @@ struct SettingsView: View {
                 .padding(.horizontal) // Fügt horizontal etwas Padding hinzu, um nicht ganz am Rand zu sein.
                 .frame(height: 15)
                 .frame(width: 200)
-
+                
                 Divider()
-
+                
                 Toggle("Vibration", isOn: Binding<Bool>(
                     get: { self.vibrationAndAlarmManager.activeToggle == 1 },
                     set: { newValue in
@@ -62,7 +62,7 @@ struct SettingsView: View {
                         }
                     }
                 ))
-
+                
                 Toggle("Alarm", isOn: Binding<Bool>(
                     get: { self.vibrationAndAlarmManager.activeToggle == 2 },
                     set: { newValue in
@@ -72,7 +72,7 @@ struct SettingsView: View {
                         }
                     }
                 ))
-
+                
                 Toggle("Vibration und Alarm", isOn: Binding<Bool>(
                     get: { self.vibrationAndAlarmManager.activeToggle == 3 },
                     set: { newValue in

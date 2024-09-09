@@ -20,7 +20,6 @@ struct WelcomeView3: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
-                    
                 }
                 Spacer()
                 

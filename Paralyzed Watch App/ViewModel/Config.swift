@@ -22,7 +22,6 @@ class Config{
         }else{
             return heartRateLimit
         }
-    
     }
     
     static func saveSettingsToggle(active: Int) {
@@ -36,7 +35,5 @@ class Config{
         }else{
             return settingsToggle
         }
-    
     }
-    
 }

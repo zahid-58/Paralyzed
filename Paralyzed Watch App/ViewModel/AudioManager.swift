@@ -21,7 +21,7 @@ class AudioManager: ObservableObject {
     
     // Einmalige Initialisierung des Modells
     let soundClassifier: AudioML_v2
-
+    
     init() {
         // Initialisiere das Modell einmal in der Initialisierungsfunktion
         do {
@@ -32,7 +32,7 @@ class AudioManager: ObservableObject {
             fatalError("Fehler beim Initialisieren des Modells: \(error.localizedDescription)")
         }
     }
-
+    
     /// An observer that receives results from a classify sound request.
     class ResultsObserver: NSObject, SNResultsObserving {
         static var prediction = "" {
@@ -41,7 +41,7 @@ class AudioManager: ObservableObject {
                 NotificationCenter.default.post(name: .predictionDidChange, object: nil)
             }
         }
-
+        
         static var counterPerCycle = 0
         
         func request(_ request: SNRequest, didProduce result: SNResult) {
@@ -59,7 +59,7 @@ class AudioManager: ObservableObject {
         func request(_ request: SNRequest, didFailWithError error: Error) {
             print("The analysis failed: \(error.localizedDescription)")
         }
-
+        
         func requestDidComplete(_ request: SNRequest) {
             print("The request completed successfully!")
             Self.counterPerCycle = (Self.prediction == "fast") ? 99 : Self.counterPerCycle + 1
@@ -74,7 +74,7 @@ class AudioManager: ObservableObject {
     func startScanning() {
         setupAudioSession()
         let audioFileName = getTemporaryAudioFileURL()
-
+        
         let settings: [String: Any] = [
             AVFormatIDKey: Int(kAudioFormatLinearPCM),
             AVSampleRateKey: 16000,
@@ -105,7 +105,7 @@ class AudioManager: ObservableObject {
             handleError(error)
         }
     }
-
+    
     private func getTemporaryAudioFileURL() -> URL {
         return URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("tempRecording.wav")
     }
@@ -132,9 +132,6 @@ class AudioManager: ObservableObject {
                 // Lösche die temporäre Datei nach der Analyse
                 deleteTemporaryAudioFile(at: audioFileURL)
             }
-            
-
-            
         } catch {
             handleError(error)
         }
@@ -160,7 +157,7 @@ class AudioManager: ObservableObject {
                 print("Classification Error: \(message)")
                 // Mögliche Maßnahme: Überprüfe das Modell oder starte die Analyse erneut
             }
-
+            
         default:
             print("Unknown Error: \(error.localizedDescription)")
             // Allgemeine Maßnahme: Zeige eine allgemeine Fehlermeldung an oder logge den Fehler
@@ -191,9 +188,7 @@ class AudioManager: ObservableObject {
         
         // Erstelle die Audio-Session neu
         setupAudioSession()
-    }
-    
-    
+    }   
 }
 
 enum AudioManagerError: Error {

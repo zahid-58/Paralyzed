@@ -19,7 +19,7 @@ struct WelcomeView1: View {
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
-                    
+                
                 
                 VStack {
                     Text("Diese App hilft potentielle Schlafparalyse zu erkennen und aufzulösen. Klicken Sie auf \"START\", um mit der Führung zu beginnen.")
@@ -27,7 +27,6 @@ struct WelcomeView1: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
-//                        .padding(.bottom)
                     
                     
                     NavigationLink(destination: WelcomeView2(isWelcomeScreenOver: $isWelcomeScreenOver) .navigationBarBackButtonHidden(true),
@@ -40,7 +39,6 @@ struct WelcomeView1: View {
                     .foregroundColor(.black)
                     .frame(width: 100)
                     .padding(.all)
-                    
                 }
             }
         }

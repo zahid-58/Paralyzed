@@ -35,7 +35,7 @@ class HealthManager: ObservableObject {
             print("Required health data types are not available.")
             return
         }
-
+        
         let typesToRead: Set<HKObjectType> = [heartRateType]
         
         healthStore.requestAuthorization(toShare: [], read: typesToRead) { [weak self] success, error in
@@ -93,20 +93,20 @@ class HealthManager: ObservableObject {
                 
             }
         }
-    
+        
         
         healthStore.execute(query)
         heartRateQuery = query // Speichert die Referenz auf die Abfrage
         
         
         // Timer einrichten, um die Überwachung zu stoppen
-         DispatchQueue.main.async {
-             self.timer = Timer.scheduledTimer(withTimeInterval: 23, repeats: false) { [weak self] _ in
-                 guard let self = self else { return }
-                 self.calculateAverageHeartRate()
-                 self.stopMonitoringHeartRate()
-             }
-         }
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(withTimeInterval: 23, repeats: false) { [weak self] _ in
+                guard let self = self else { return }
+                self.calculateAverageHeartRate()
+                self.stopMonitoringHeartRate()
+            }
+        }
     }
     
     // Berechnen des Durchschnittswertes der Herzfrequenz

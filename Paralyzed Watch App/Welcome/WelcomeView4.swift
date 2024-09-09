@@ -47,8 +47,7 @@ struct WelcomeView4: View {
                     .foregroundColor(.black)
                     .background(Capsule().fill(Color.green))
                     .fontWeight(.bold)
-                    .navigationBarBackButtonHidden(true)
-                    
+                    .navigationBarBackButtonHidden(true)   
                 }
                 .padding(.all)
             }

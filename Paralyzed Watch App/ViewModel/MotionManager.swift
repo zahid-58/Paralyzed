@@ -26,7 +26,7 @@ class MotionManager: ObservableObject{
     
     let movementThreshold = 0.09 // zum Testen, davor stand 0.1
     
-
+    
     // Funktion zum Starten der Bewegungsüberwachung
     func startMonitoring(for duration: TimeInterval) {
         guard motionManager.isAccelerometerAvailable else {
@@ -37,7 +37,7 @@ class MotionManager: ObservableObject{
         xValues.removeAll()
         yValues.removeAll()
         zValues.removeAll()
-
+        
         motionManager.accelerometerUpdateInterval = 1.0 / 2.0 // Daten werden 2 Mal pro Sekunde aktualisiert
         motionManager.startAccelerometerUpdates(to: .main) { [weak self] (data, error) in
             guard let data = data else {
@@ -62,10 +62,8 @@ class MotionManager: ObservableObject{
             motionRow.detected = false
             
             self?.$motiondb.append(motionRow)
-            
-
         }
-
+        
         // Timer einrichten, um die Überwachung zu stoppen
         timer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
             guard let self = self else { return }
@@ -96,10 +94,9 @@ class MotionManager: ObservableObject{
             case .undetermined:
                 print("Bewegungsstatus unbestimmt.")
             }
-            
         }
     }
-
+    
     // Funktion zum Stoppen der Überwachung
     func stopMonitoring() {
         motionManager.stopAccelerometerUpdates()
@@ -109,7 +106,7 @@ class MotionManager: ObservableObject{
         
         print("Motion stopped")
     }
-
+    
     func calculateAndPrintAverageDifferences() {
         let statusX = printAverageDifference(for: xValues, axis: "X")
         let statusY = printAverageDifference(for: yValues, axis: "Y")
@@ -117,7 +114,7 @@ class MotionManager: ObservableObject{
         
         motionStatus = (statusX == .movementDetected || statusY == .movementDetected || statusZ == .movementDetected) ? .movementDetected : .noMovement
     }
-
+    
     func printAverageDifference(for values: [Double], axis: String) -> MotionDetectionStatus {
         guard let firstValue = values.first else { return .undetermined }
         
@@ -134,7 +131,6 @@ class MotionManager: ObservableObject{
         
         print("Durchschnittliche absolute Differenz für Achse %{public}@ : %{public}.4f", axis, averageDifference)
         
-        return averageDifference < movementThreshold ? .noMovement : .movementDetected      
+        return averageDifference < movementThreshold ? .noMovement : .movementDetected
     }
-
 }
