@@ -13,8 +13,6 @@ struct ImpactNotificationView: View {
     @Binding var showImpactNotificationView: Bool
     @EnvironmentObject var vibrationAndAlarmManager: VibrationAndAlarmManager
     
-    
-    
     var body: some View {
         NavigationView {
             VStack {

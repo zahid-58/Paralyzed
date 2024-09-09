@@ -11,7 +11,7 @@ class TimerManager: ObservableObject {
     
     private var healthManager: HealthManager
     private var audioManager: AudioManager
-    static var tabbedToDisable = false
+    static var pressedToDisable = false
     static var isRunning = false
     
     init(healthManager: HealthManager, audioManager: AudioManager) {
@@ -20,7 +20,7 @@ class TimerManager: ObservableObject {
     }
     
     
-    func waitForTenSeconds(completion: @escaping () -> Void) {
+    func waitToStartCycle(completion: @escaping () -> Void) {
         Self.isRunning = true
         DispatchQueue.global().asyncAfter(deadline: .now() + 20) {
             Self.isRunning = false
@@ -30,14 +30,14 @@ class TimerManager: ObservableObject {
     
     func startCycle() {
         
-        waitForTenSeconds {
-            if Self.tabbedToDisable == false{
+        waitToStartCycle {
+            if Self.pressedToDisable == false{
                 self.healthManager.requestAuthorization()
                 DispatchQueue.main.async() {
                     self.audioManager.startScanning()
                 }
             }else {
-                Self.tabbedToDisable = false
+                Self.pressedToDisable = false
             }
         }
     }

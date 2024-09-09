@@ -33,7 +33,7 @@ struct StartStopView: View {
                         //deleteRealmDatabase()
                         if TimerManager.isRunning{
                             print("TimerManager Cycle besteht noch, und wird weiter verwendet")
-                            TimerManager.tabbedToDisable = false
+                            TimerManager.pressedToDisable = false
                             
                         }else{
                             print("Button startet TimerManager Cycle")
@@ -51,7 +51,7 @@ struct StartStopView: View {
                 } else {
                     Button("Tap to deactivate") {
                         if TimerManager.isRunning{
-                            TimerManager.tabbedToDisable = true
+                            TimerManager.pressedToDisable = true
                         }
                         
                         isActivated = false

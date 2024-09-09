@@ -19,10 +19,12 @@ struct WelcomeView1: View {
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 15)
+                    .padding()
                 
                 
                 VStack {
-                    Text("Diese App hilft potentielle Schlafparalyse zu erkennen und aufzulösen. Klicken Sie auf \"START\", um mit der Führung zu beginnen.")
+                    Text("Klicken Sie auf \"START\", um mit der Führung der App zu beginnen.")
                         .font(.caption2)
                         .multilineTextAlignment(.center)
                         .lineLimit(nil)

@@ -12,37 +12,39 @@ struct WelcomeView2: View {
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        ZStack{
-            Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            VStack(spacing: 20) {
-                Text("Auf der Startseite befindet sich ein Button \"Tap to start\", um die Überwachung zu starten.")
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
-                
-                Spacer()
-                HStack(spacing: 50) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "arrow.left")
-                            Text("Back")
-                        }
-                    })
-                    .buttonStyle(PlainButtonStyle())
+        NavigationView{
+            ZStack{
+                Color.black.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                VStack(spacing: 20) {
+                    Text("Auf der Startseite befindet sich ein Button \"Tap to activate\", um die Überwachung zu starten.")
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                     
-                    NavigationLink(destination: WelcomeView3(isWelcomeScreenOver: $isWelcomeScreenOver)) {
-                        HStack(spacing: 6) {
-                            Text("Next")
-                            Image(systemName: "arrow.right")
+                    Spacer()
+                    HStack(spacing: 50) {
+                        Button(action: {
+                            dismiss()
+                        }, label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: "arrow.left")
+                                Text("Back")
+                            }
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(destination: WelcomeView3(isWelcomeScreenOver: $isWelcomeScreenOver)) {
+                            HStack(spacing: 6) {
+                                Text("Next")
+                                Image(systemName: "arrow.right")
+                            }
                         }
+                        .buttonStyle(PlainButtonStyle())   
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    .navigationBarBackButtonHidden(true)
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
