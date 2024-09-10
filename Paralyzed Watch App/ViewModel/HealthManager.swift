@@ -85,11 +85,33 @@ class HealthManager: ObservableObject {
                 
                 let heartRateRow = HeartRateData()
                 heartRateRow.heartrate = latestSample
-                heartRateRow.timestamp = Date()
+                let currentDate = Date()
+                
+                // Holen Sie sich die lokale Zeitzone
+                let timeZoneOffset = TimeZone.current.secondsFromGMT(for: currentDate)
+
+                // Korrigieren Sie die Zeit für die lokale Zeitzone
+                let localDate = currentDate.addingTimeInterval(TimeInterval(timeZoneOffset))
+                
+                heartRateRow.timestamp = localDate            
                 heartRateRow.scanid = HealthManager.scanid
                 heartRateRow.detected = false
                 
-                self.$heartRatedb.append(heartRateRow)
+                // Speichern des Objekts in Realm auf einem Hintergrundthread
+                DispatchQueue.global(qos: .background).async {
+                    do {
+                        // Instanziiere Realm innerhalb des Hintergrundthreads
+                        let realm = try Realm()
+                        
+                        // Beginne eine Schreibtransaktion
+                        try realm.write {
+                            realm.add(heartRateRow)
+                        }
+                        
+                    } catch let error {
+                        print("Error saving MotionData to Realm: \(error.localizedDescription)")
+                    }
+                }
                 
             }
         }
